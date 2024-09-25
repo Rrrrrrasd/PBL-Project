@@ -1,0 +1,79 @@
+#login{
+    padding: 0.4rem 0.8rem;
+    font-size: 0.7rem;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+.left-panel {
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+nav.menu-list{
+    padding-bottom: 0.3rem;
+    border-bottom: solid 0.2rem gray;
+}
+
+.kategorie {
+    font-weight: bold;
+}
+
+.kategorie:hover {
+    text-decoration: none;
+    padding: 0.2rem 0.4rem;
+    color:gray;
+    background-color: rgb(227, 227, 227);
+    border-radius: 10px;
+}
+
+.menu-list a {
+    margin-left: 30px;
+    color: #000;
+}
+
+.recommendations {
+    margin-top: 20px;
+}
+
+.festivalInformation{
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.recommendation-item {
+    margin-bottom: 15px;
+}
+
+.recommendation-item img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.recommendationName:hover{
+    text-decoration: none;
+}
+
+.hyperLink{
+    font-size: 0.7rem;
+}
+.hyperLink:hover{
+    font-size: 0.7rem;
+}
+
+.evaluation{
+    font-style: none;
+    font-size: 0.7rem;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+}
