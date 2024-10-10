@@ -1,0 +1,8 @@
+.info-window {
+    padding: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    max-width: 250px; /* 최대 너비를 설정하여 인포윈도우가 너무 넓어지지 않도록 함 */
+    word-wrap: break-word; /* 긴 단어를 줄바꿈 */
+    white-space: normal; /* 텍스트가 자동으로 줄바꿈되도록 설정 */
+}
