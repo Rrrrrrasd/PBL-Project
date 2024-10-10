@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival List</title>
+</head>
+<body>
+    <h1>Festival List</h1>
+    <div id="festival-list">
+        <!-- API에서 가져온 데이터가 여기에 렌더링될 예정 -->
+    </div>
+
+    <script>
+        // 페이지가 로드되면 API 데이터를 가져와서 표시하는 함수
+        document.addEventListener("DOMContentLoaded", function() {
+            // REST API로부터 데이터를 가져옴
+            fetch('/api/festivals') // API 경로
+                .then(response => response.json()) // JSON 데이터를 파싱
+                .then(data => {
+                    const festivalList = document.getElementById('festival-list');
+                    
+                    // 데이터를 HTML로 렌더링
+                    data.forEach(festival => {
+                        const festivalDiv = document.createElement('div');
+                        festivalDiv.innerHTML = `
+                            <h2>${festival.title}</h2>
+                            <p><strong>Location:</strong> ${festival.addr1}, ${festival.addr2}</p>
+                            <p><strong>Date:</strong> ${festival.eventstartdate} ~ ${festival.eventenddate}</p>
+                            <p><strong>mapx, mapy:</strong> ${festival.mapx} ~ ${festival.mapy}</p>
+                            <img src="${festival.firstimage}" alt="${festival.title}" width="200">
+                            <hr>
+                        `;
+                        festivalList.appendChild(festivalDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching festival data:', error));
+        });
+    </script>
+</body>
+</html>
