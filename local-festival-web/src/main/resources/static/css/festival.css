@@ -83,6 +83,7 @@ nav.menu-list{
 
 .recommendation-item {
     margin-bottom: 15px;
+
 }
 
 .recommendation-item img {
@@ -91,7 +92,7 @@ nav.menu-list{
     margin-bottom: 10px;
 }
 
-
+/*지워야 할 수도 있는 부분인 하이퍼링크 클래스 style*/
 .hyperLink{
     font-size: 0.7rem;
 }
@@ -115,6 +116,11 @@ nav.menu-list{
 
 }
 
+.form-control{
+    border-radius: 5px 0 0 5px;
+    height: 45px !important; /* !important로 text크기를 안씹히도록 함*/
+}
+
 .search-btn {
     background-color: #007bff;
     border: none;
@@ -128,10 +134,22 @@ nav.menu-list{
 .search-btn:hover {/*검색버튼에 마우스 올렸을떄 진한 파랑으로 반응표현*/
     background-color: #0056b3;
 }
-.input-group-text {
-    border-radius: 5px 0 0 5px;
-    height: 45px !important;
-}
+
 .readingGlass {
     fill: white;
+}
+
+
+.more-info img{
+    max-width: 100%;
+
+    overflow: hidden;
+}
+
+.more-info img{
+    transition: all 0.2s linear;
+}
+
+.more-info:hover img{
+        transform: scale(1.05);
 }

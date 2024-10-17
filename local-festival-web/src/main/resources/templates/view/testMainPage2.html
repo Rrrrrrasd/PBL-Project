@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enjoy</title>
+    <link rel="stylesheet" href="/css/map_size.css">
+    <link rel="stylesheet" href="/css/festival.css">
+    <link rel="stylesheet" href="/css/infoWindow.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 왼쪽 패널 -->
+            <div class="left-panel bg-light" style="width: 25%;">
+                <nav id="mainNavbar" class="navbar bg-none flex-column">
+                    <div class="w-100 d-flex justify-content-between align-items-center mb-3">
+                        <a href="" class="navbar-brand text-primary">ENJOY</a>
+                        <div class="loginBtn">
+                            <button class="btn btn-primary text-white" id="login">Login</button>
+                        </div>
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-center">
+                        <div class="input-group" style="max-width: 500px;">
+                            <input class="form-control" type="text" placeholder="축제 이름, 지역 검색" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="search-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-search readingGlass" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+
+                <nav class="menu-list">
+                    <!-- data-category 속성을 추가하여 각 메뉴를 식별 -->
+                    <button class="kategorie festivalBTN">정보</button>
+                    <button class="kategorie trafficBTN">교통</button>
+                    <button class="kategorie hotelBTN">숙소</button>
+                    <button class="kategorie restaurantBTN">주변 맛집</button>
+                </nav>
+
+                <div class="traffic-info hidden mt-3" id="traffic">
+                    <button onclick="trafficInformation()">교통 정보</button>
+                </div>
+
+                <!-- 축제 정보 섹션 -->
+                <div class="recommendations">
+
+                    <div class="festival-info hidden mt-4" id="festival">
+                        <p class="festivalInformation">축제 정보</p>
+                        <div class="recommendation-item">
+                            <!-- 패널의 내용을 동적으로 업데이트하기 위한 코드 변경-->
+                            <div class="recommendationInform">
+                                <!-- 패널의 내용을 동적으로 업데이트하기 위한 id 값을 유지 -->
+                                <a href="#" class="more-info">
+                                    <img id="festival-image" src="" alt="축제 이미지" class="imageExpand">
+                                </a>
+                                <div class="ml-3">
+                                    <button id="festival-title" class="recommendationName"></button>
+                                    <p id="festival-address" class="evaluation">주소 정보</p>
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+                                            <path
+                                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                        </svg>
+                                        <span id="festival-dates" class="evaluation">날짜 정보</span>
+                                    </div>
+                                    <div class="flex-column">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                                        </svg>
+                                        <span id="festival-tel" class="evaluation">전화번호 정보</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-info hidden mt-4" id="hotel">
+                        <p class="festivalInformation">숙박 정보</p>
+                        <div class="recommendation-item">
+                            <div class="recommendationInform">
+                                <button class="more-info">
+                                    <img src="hotel.jpg" alt="호텔" class="img-fluid">
+                                </button>
+                                <button class="recommendationName">숙소 샘플</button>
+                                <a class="hyperLink" href="">http://www.sample.com/</a>
+                                <p class="evaluation">1인 10,000원, 평점 4.2, 리뷰 3</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="restaurant-info hidden mt-4" id="restaurant">
+                        <p class="festivalInformation">맛집 추천</p>
+                        <div class="recomendation-item">
+                            <div class="recommendationInform">
+                                <button class="more-info">
+                                    <img src="restaurant.jpg" alt="음식점" class="img-fluid">
+                                </button>
+                                <button class="recommendationName">레스토랑 샘플</button>
+                                <a class="hyperLink" href="">http://www.sample.com/</a>
+                                <p class="evaluation">평점 3.7, 리뷰 120</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 메인 섹션 (지도) -->
+            <div class="mapContainer p-0" style="width: 75%">
+                
+                <!-- 지도 생성 스크립트 --><div id="map"></div>
+
+                <!-- Kakao Maps API 스크립트 -->
+                <script type="text/javascript"
+                    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=04ecab24b427d7fdb95d7b0be603cfe6"></script>
+
+                <!-- JavaScript 코드 삽입 위치 -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // 현재 날짜를 yyyyMMdd 형식으로 구합니다.
+                        var today = new Date();
+                        var todayStr = today.getFullYear() +
+                            ('0' + (today.getMonth() + 1)).slice(-2) +
+                            ('0' + today.getDate()).slice(-2);
+
+                        console.log('Today:', todayStr);
+
+
+                        // API를 호출하여 데이터를 가져옴
+                        fetch('/api/festivals')
+                            .then(response => response.json()) // 응답을 JSON으로 변환
+                            .then(festivals => {
+                                console.log('Parsed festivals data:', festivals);
+
+                                // Kakao 지도 설정
+                                var mapContainer = document.getElementById('map');
+                                var mapOption = {
+                                    center: new kakao.maps.LatLng(36.5, 127.5),
+                                    level: 12
+                                };
+                                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                                //API로 받은 데이터를 지도에 마커로 표시
+                                festivals.forEach(function (festival) {
+                                    var mapy = parseFloat(festival.mapy);
+                                    var mapx = parseFloat(festival.mapx);
+                                    var startDate = festival.eventstartdate; // yyyyMMdd 형식
+                                    var endDate = festival.eventenddate; // yyyyMMdd 형식
+
+                                    // 현재 날짜가 시작일과 종료일 사이에 있는지 확인
+                                    if (todayStr >= startDate && todayStr <= endDate && !isNaN(mapy) && !isNaN(mapx)) {
+                                        var markerPosition = new kakao.maps.LatLng(mapy, mapx);
+                                        var marker = new kakao.maps.Marker({
+                                            position: markerPosition,
+                                            map: map // 마커를 지도에 표시
+                                        });
+
+                                        // 인포윈도우에 표시할 내용
+                                        var infoContent = `<div class="info-window" style="max-width: 250px; margin: 0 auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+                                            <div style="text-align: center; margin-bottom: 5px;">
+                                                <strong>${festival.title}</strong><br>
+                                            </div>
+                                            <img src="${festival.firstimage}" alt="${festival.title}" 
+                                                style="width: 100%; object-fit: cover; max-height: 150px; display: block; margin: 0 auto 3px;">
+                                            <div style="padding: 0 10px; text-align: left; margin-top: 3px; word-wrap: break-word; white-space: normal; font-size: 13px;">
+                                                ${festival.addr1}<br>
+                                                <span style="font-size: 12px; color: #555;">${festival.eventstartdate} ~ ${festival.eventenddate}</span>
+                                            </div>
+                                        </div>`;
+
+                                        // 인포윈도우 생성
+                                        var infowindow = new kakao.maps.InfoWindow({
+                                            content: infoContent,
+                                            removable: true
+                                        });
+
+                                        // 마커에 마우스를 올렸을 때 인포윈도우 표시
+                                        kakao.maps.event.addListener(marker, 'mouseover', function () {
+                                            infowindow.open(map, marker);
+                                        });
+
+                                        // 마커에서 마우스를 뗐을 때 인포윈도우 닫기
+                                        kakao.maps.event.addListener(marker, 'mouseout', function () {
+                                            infowindow.close();
+                                        });
+
+                                        kakao.maps.event.addListener(marker, 'click', function () {
+                                            console.log('Marker clicked');  // 마커 클릭 시 호출 확인
+                                            console.log('Calling InfoMapToPanel function');  // 함수 호출 로그
+
+                                            // 마커의 위치로 지도 중심 이동 및 확대
+                                            map.setLevel(7);
+                                            map.panTo(markerPosition);
+
+                                            // 마커 클릭 시 축제 정보를 패널에 업데이트하는 함수 호출
+                                            InfoMapToPanel(festival);  // 이 함수에서 축제 정보가 패널에 표시되도록 처리
+                                        });
+
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching festivals data:', error);
+                            });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 코드 추가 -->
+    <script>
+        // 모든 버튼 및 정보 요소 선택
+        const leftPanel = document.querySelector(".left-panel");
+        const rightPanel = document.querySelector(".mapContainer");
+        const recomendation = document.querySelector(".recommendation");
+        const festivalBTN = document.querySelector(".festivalBTN");
+        const festivalInfo = document.getElementById("festival");
+        const trafficBTN = document.querySelector(".trafficBTN");
+        const trafficInfo = document.getElementById("traffic");
+        const hotelBTN = document.querySelector(".hotelBTN");
+        const hotelInfo = document.getElementById("hotel");
+        const restaurantBTN = document.querySelector(".restaurantBTN");
+        const restaurantInfo = document.getElementById("restaurant");
+
+        //왼쪽 패널 확장을 위한 사진버튼 요소 선택 셀렉터올로 하면 카테고리 버튼을 눌러도 아무 액션을 안함..
+        const moreINfo = document.querySelector(".more-info");
+
+
+        // 모든 정보 요소들을 배열로 묶음
+        const infoSections = [festivalInfo, trafficInfo, hotelInfo, restaurantInfo];
+        //각 카테고리별 사진 버튼을 눌렀을 때의 이벤트리스너 생성
+
+        //사진버튼 클릭시 왼쪽 패널 확대
+        moreINfo.addEventListener('click', () => {
+            leftPanel.classList.add('expanded');
+            if (leftPanel.style.width === '25%') { // col-md-3
+                leftPanel.style.width = '58.33%'; // col-md-7
+                rightPanel.style.width = '41.67%'; // col-5
+            } else {
+                leftPanel.style.width = '25%'; // col-md-3
+                rightPanel.style.width = '75%'; // col-9
+            }
+        });
+
+
+        // 공통 함수: 모든 정보 숨기기
+        function hideAllInfo() {
+            infoSections.forEach(info => {
+                info.classList.add('hidden'); // 모든 정보를 숨김
+            });
+        };
+
+        // 축제 정보 버튼 클릭 이벤트
+        festivalBTN.addEventListener('click', () => {
+            hideAllInfo(); // 다른 정보 모두 숨기기
+            festivalInfo.classList.toggle('hidden'); // 축제 정보만 토글
+        });
+
+        // 교통 정보 버튼 클릭 이벤트
+        trafficBTN.addEventListener('click', () => {
+            hideAllInfo(); // 다른 정보 모두 숨기기
+            trafficInfo.classList.toggle('hidden'); // 교통 정보만 토글
+        });
+
+        hotelBTN.addEventListener('click', () => {
+            hideAllInfo(); // 다른 정보 모두 숨기기
+            hotelInfo.classList.toggle('hidden'); // 숙소 정보만 토글
+        });
+
+        restaurantBTN.addEventListener('click', () => {
+            hideAllInfo(); // 다른 정보 모두 숨기기
+            restaurantInfo.classList.toggle('hidden'); // 음식점 정보만 토글
+        });
+    </script>
+    <script src="/js/InfoMapToPanel.js"></script>
+</body>
+
+</html>

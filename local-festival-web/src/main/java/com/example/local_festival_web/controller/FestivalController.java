@@ -23,6 +23,6 @@ public class FestivalController {
 		
 		model.addAttribute("festivals", filteredFestivals);
 		
-		return "view/test";
+		return "view/testMainPage2";
 	}
 }
