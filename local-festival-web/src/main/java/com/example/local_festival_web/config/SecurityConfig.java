@@ -54,23 +54,18 @@ public class SecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.authorizeHttpRequests((requests) -> requests
-		        .requestMatchers("/login", "/css/**", "/js/**" ).permitAll()  // 특정 경로는 인증 없이 허용
-		        .anyRequest().authenticated()  // 그 외의 모든 요청은 인증이 필요함
-		    )
-				.formLogin((form)-> form
-						.loginPage("/login")//커스텀 로그인 페이지
-						.defaultSuccessUrl("/festival")
-						.permitAll()//로그인 페이지 접근 누구나 가능
-			)
-				.logout((logout) -> logout
-						.logoutUrl("/logout")
-						.logoutSuccessUrl("/festival")//로그아웃 성공 후 이동할 URL
-						.permitAll());//로그아웃 요청도 인증없이 가능
-		
-						
-		return http.build();
+		// CSRF 보호 비활성화 (H2 Console에 대해)
+        http.csrf(csrf -> csrf.disable())
+            // H2 콘솔을 위한 Frame Options 비활성화
+            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+            // H2 콘솔 및 특정 엔드포인트에 대해 보안 비활성화
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/h2-console/**").permitAll()  // h2-console을 모든 사용자에게 허용
+                .requestMatchers("/api/festivals/fetch").permitAll()  // 테스트 엔드포인트도 허용
+                .anyRequest().permitAll()
+            );
+
+        return http.build();
 	}
 	
 	

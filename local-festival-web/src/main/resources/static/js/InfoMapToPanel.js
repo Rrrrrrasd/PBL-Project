@@ -12,7 +12,7 @@ function InfoMapToPanel(festival) {
     console.log('Festival Data:', festival);  // 축제 객체 전체를 출력
 
     // 각각의 요소에 축제 정보를 업데이트
-    imageElement.src = festival.firstimage || 'festivalSample.jpg';  // 이미지가 없을 경우 기본값 설정
+    imageElement.src = festival.firstimage2 || 'festivalSample.jpg';  // 이미지가 없을 경우 기본값 설정
     imageElement.alt = festival.title || '축제 이미지';
     titleElement.textContent = festival.title || '제목 없음';
     addressElement.textContent = festival.addr1 || '주소 정보 없음';

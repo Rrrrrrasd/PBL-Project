@@ -146,7 +146,7 @@
 
 
                         // API를 호출하여 데이터를 가져옴
-                        fetch('/api/festivals')
+                        fetch('/api/festivals/all')
                             .then(response => response.json()) // 응답을 JSON으로 변환
                             .then(festivals => {
                                 console.log('Parsed festivals data:', festivals);
@@ -179,7 +179,7 @@
                                             <div style="text-align: center; margin-bottom: 5px;">
                                                 <strong>${festival.title}</strong><br>
                                             </div>
-                                            <img src="${festival.firstimage}" alt="${festival.title}" 
+                                            <img src="${festival.firstimage2}" alt="${festival.title}" 
                                                 style="width: 100%; object-fit: cover; max-height: 150px; display: block; margin: 0 auto 3px;">
                                             <div style="padding: 0 10px; text-align: left; margin-top: 3px; word-wrap: break-word; white-space: normal; font-size: 13px;">
                                                 ${festival.addr1}<br>
