@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- 왼쪽 패널 -->
-            <div class="left-panel bg-light" style="width: 25%;">
+            <div class="left-panel bg-light" style="width: 33.33%;">
                 <nav id="mainNavbar" class="navbar bg-none flex-column">
                     <div class="w-100 d-flex justify-content-between align-items-center mb-3">
                         <a href="" class="navbar-brand text-primary">ENJOY</a>
@@ -46,7 +46,6 @@
                 <nav class="menu-list">
                     <!-- data-category 속성을 추가하여 각 메뉴를 식별 -->
                     <button class="kategorie festivalBTN">정보</button>
-                    <button class="kategorie trafficBTN">교통</button>
                     <button class="kategorie hotelBTN">숙소</button>
                     <button class="kategorie restaurantBTN">주변 맛집</button>
                 </nav>
@@ -59,7 +58,6 @@
                 <div class="recommendations">
 
                     <div class="festival-info hidden mt-4" id="festival">
-                        <p class="festivalInformation">축제 정보</p>
                         <div class="recommendation-item">
                             <!-- 패널의 내용을 동적으로 업데이트하기 위한 코드 변경-->
                             <div class="recommendationInform">
@@ -67,8 +65,11 @@
                                 <a href="#" class="more-info">
                                     <img id="festival-image" src="" alt="축제 이미지" class="imageExpand">
                                 </a>
-                                <div class="ml-3">
-                                    <button id="festival-title" class="recommendationName"></button>
+                                <div class="">
+                                    <div class="w-100 d-flex justify-content-between align-items-center mb-3 px-12">
+                                        <button id="festival-title" class="recommendationName"></button>
+                                        <button class="btn btn-primary text-white" id="Directions">길찾기</button>
+                                    </div>
                                     <p id="festival-address" class="evaluation">주소 정보</p>
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -88,6 +89,8 @@
                                         </svg>
                                         <span id="festival-tel" class="evaluation">전화번호 정보</span>
                                     </div>
+
+                                    <hr> <!--리뷰, 평점 구분선-->
                                 </div>
                             </div>
                         </div>
@@ -125,9 +128,10 @@
             </div>
 
             <!-- 메인 섹션 (지도) -->
-            <div class="mapContainer p-0" style="width: 75%">
-                
-                <!-- 지도 생성 스크립트 --><div id="map"></div>
+            <div class="mapContainer p-0" style="width: 66.67%">
+
+                <!-- 지도 생성 스크립트 -->
+                <div id="map"></div>
 
                 <!-- Kakao Maps API 스크립트 -->
                 <script type="text/javascript"
@@ -235,7 +239,6 @@
         const recomendation = document.querySelector(".recommendation");
         const festivalBTN = document.querySelector(".festivalBTN");
         const festivalInfo = document.getElementById("festival");
-        const trafficBTN = document.querySelector(".trafficBTN");
         const trafficInfo = document.getElementById("traffic");
         const hotelBTN = document.querySelector(".hotelBTN");
         const hotelInfo = document.getElementById("hotel");
@@ -253,12 +256,12 @@
         //사진버튼 클릭시 왼쪽 패널 확대
         moreINfo.addEventListener('click', () => {
             leftPanel.classList.add('expanded');
-            if (leftPanel.style.width === '25%') { // col-md-3
+            if (leftPanel.style.width === '33.33%') { // col-md-4
                 leftPanel.style.width = '58.33%'; // col-md-7
                 rightPanel.style.width = '41.67%'; // col-5
             } else {
-                leftPanel.style.width = '25%'; // col-md-3
-                rightPanel.style.width = '75%'; // col-9
+                leftPanel.style.width = '33.33%'; // col-md-4
+                rightPanel.style.width = '66.67%'; // col-8
             }
         });
 
@@ -274,12 +277,6 @@
         festivalBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             festivalInfo.classList.toggle('hidden'); // 축제 정보만 토글
-        });
-
-        // 교통 정보 버튼 클릭 이벤트
-        trafficBTN.addEventListener('click', () => {
-            hideAllInfo(); // 다른 정보 모두 숨기기
-            trafficInfo.classList.toggle('hidden'); // 교통 정보만 토글
         });
 
         hotelBTN.addEventListener('click', () => {

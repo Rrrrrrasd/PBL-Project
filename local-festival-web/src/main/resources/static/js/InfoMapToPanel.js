@@ -23,5 +23,21 @@ function InfoMapToPanel(festival) {
     festivalInfo.classList.remove('hidden');
 
     const imageWidth = imageElement.src.width;
-    imageElement.src.style = `width-${imageWidth}`
+    imageElement.src.style = `width-${imageWidth}`;
+
+    let directionButton = document.querySelector('#Directions');
+   
+
+    directionButton.removeEventListener('click', handleDirectionClick);
+    directionButton.addEventListener('click', handleDirectionClick);
+
+    function handleDirectionClick() {
+        const destination = festival.title || '목적지';
+        const latitude = festival.mapy;  // 위도
+        const longitude = festival.mapx; // 경도
+
+        // 카카오맵 길찾기 URL로 새 창에서 이동
+        const kakaoMapUrl = `https://map.kakao.com/link/to/${encodeURIComponent(destination)},${latitude},${longitude}`;
+        window.open(kakaoMapUrl, 'kakaoMapTab');
+    }
 }

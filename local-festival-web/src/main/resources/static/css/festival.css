@@ -9,6 +9,11 @@
     right: 10px;
     z-index: 10;
 } */
+.left-panel{
+    height: 100vh;
+    overflow-y: auto;
+}
+
 .left-panel, .mapContainer {
     transition: width 0.5s ease; /* 너비 변경 시 애니메이션 효과 */
 }
@@ -23,7 +28,7 @@ button{
 
 #login{ /*버튼 모양 바꾸는 선택자*/
     padding: 0.4rem 0.8rem;
-    font-size: 0.7rem;
+    font-size: 1rem;
     border-radius: 30px;
     font-weight: bold;
 }
@@ -43,8 +48,8 @@ button{
 
 nav.menu-list{
     display : flex;
-    padding-bottom: 0.3rem;
-    border-bottom: solid 0.2rem gray;
+    padding: 0.5rem 0;
+    border-bottom: solid 0.1rem gray;
     justify-content: space-around
 }
 
@@ -70,7 +75,7 @@ nav.menu-list{
     margin-top: 20px;
 }
 
-.recommendationInform button{
+.recommendationInform .recommendationName{
     background: none; /* 배경 제거 */
     border: none;/* 테두리 제거 */
    font-weight: bold;
@@ -94,15 +99,15 @@ nav.menu-list{
 
 /*지워야 할 수도 있는 부분인 하이퍼링크 클래스 style*/
 .hyperLink{
-    font-size: 0.7rem;
+    font-size: 1rem;
 }
 .hyperLink:hover{
-    font-size: 0.7rem;
+    font-size: 1rem;
 }
 
 .evaluation{
     font-style: none;
-    font-size: 0.7rem;
+    font-size: 1rem;
 }
 
 #map {
@@ -152,4 +157,12 @@ nav.menu-list{
 
 .more-info:hover img{
         transform: scale(1.05);
+}
+
+
+#Directions{ /*버튼 모양 바꾸는 선택자*/
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    font-weight: bold;
 }
