@@ -8,7 +8,14 @@ function InfoMapToPanel(festival) {
     const datesElement = document.getElementById('festival-dates');
     const telElement = document.getElementById('festival-tel');
     const festivalInfo = document.getElementById('festival'); // 축제 정보 섹션
-
+	
+	//추가
+	const festivalTimeElement = document.getElementById('festival-time'); //축제 시간
+	const festivalPriceElement = document.getElementById('festival-price'); //축제 입장료
+	const festivalOverviewElement = document.getElementById('festival-overview')//개요
+	//홈페이지 추가필요
+	
+	
     console.log('Festival Data:', festival);  // 축제 객체 전체를 출력
 
     // 각각의 요소에 축제 정보를 업데이트
@@ -16,9 +23,14 @@ function InfoMapToPanel(festival) {
     imageElement.alt = festival.title || '축제 이미지';
     titleElement.textContent = festival.title || '제목 없음';
     addressElement.textContent = festival.addr1 || '주소 정보 없음';
-    datesElement.textContent = ` ${festival.eventstartdate || ' 시작일 정보 없음'} ~ ${festival.eventenddate || ' 종료일 정보 없음'}`;
-    telElement.textContent = festival.tel || '전화번호 정보 없음';
-
+    datesElement.textContent = ` ${festival.eventstartdate.slice(4,6) + "/" + festival.eventstartdate.slice(6,8) || ' 시작일 정보 없음'} ~ 
+								 ${festival.eventenddate.slice(4,6)+ "/" +festival.eventenddate.slice(6,8) || ' 종료일 정보 없음'}`;
+    telElement.textContent = festival.sponsor1tel + "  (" + festival.sponsor1 + ")"  || '전화번호 정보 없음';
+	festivalTimeElement.textContent =`${"운영시간: " + festival.playtime || "시간 정보 없음"}`;
+	festivalPriceElement.innerHTML = festival.usetimefestival ? `입장료: ${festival.usetimefestival}` : "입장료 정보 없음";
+	festivalOverviewElement.innerHTML =	festival.overview ? `<br/>${festival.overview}</p>` 
+	    : "";
+	
     // 'festival' 섹션을 표시
     festivalInfo.classList.remove('hidden');
 
