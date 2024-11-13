@@ -1,7 +1,6 @@
-package com.example.local_festival_web.controller;
+package com.example.local_festival_web.controller.view;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FestivalController {
 	
 	@GetMapping("/festival")
-	public String getFestivalInfo(Model model) {
+	public String getFestivalInfo() {
 		return "view/testMainPage2";
 	}
 }

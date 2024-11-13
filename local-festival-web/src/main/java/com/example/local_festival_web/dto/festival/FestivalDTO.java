@@ -1,4 +1,4 @@
-package com.example.local_festival_web.dto;
+package com.example.local_festival_web.dto.festival;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

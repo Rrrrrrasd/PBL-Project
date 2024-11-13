@@ -1,8 +1,9 @@
 package com.example.local_festival_web.service;
 
-import com.example.local_festival_web.dto.FestivalDTO;
+import com.example.local_festival_web.dto.festival.FestivalDTO;
 import com.example.local_festival_web.model.Festival;
 import com.example.local_festival_web.repository.FestivalRepository;
+import com.example.local_festival_web.utils.WebClientUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,6 +24,8 @@ public class FestivalService {
 
     @Autowired
     private WebClient.Builder webClientBuilder;
+    
+    private WebClientUtil webClientUtil;
 
     @Autowired
     private ObjectMapper objectMapper;  // JSON 파싱을 위한 ObjectMapper
@@ -35,16 +38,7 @@ public class FestivalService {
     	String apiUrl = "https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=" +
                 userKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&eventStartDate=1";
     	
-    	System.out.println(apiUrl);
-    	
-    	// 버퍼 크기를 10MB로 설정하여 WebClient 생성
-        ExchangeStrategies strategies = ExchangeStrategies.builder()
-                .codecs(configurer -> configurer
-                        .defaultCodecs()
-                        .maxInMemorySize(10 * 1024 * 1024))  // 10MB 버퍼 크기
-                .build();
-    	
-        WebClient webClient = webClientBuilder.exchangeStrategies(strategies).build();
+    	WebClient webClient = webClientUtil.configureWebClient(webClientBuilder).build();
         
         // 첫 번째 API 요청: contentid 포함된 기본 정보 가져오기
         String firstApiResponse = webClient.get()
@@ -119,14 +113,7 @@ public class FestivalService {
     	String thirdApiUrl = "https://apis.data.go.kr/B551011/KorService1/detailIntro1?serviceKey=" +
                 userKey + "&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=" + festival.getContentId() + "&contentTypeId=15&numOfRows=100&pageNo=1";
     	
-    	// 버퍼 크기를 10MB로 설정하여 WebClient 생성
-        ExchangeStrategies strategies = ExchangeStrategies.builder()
-                .codecs(configurer -> configurer
-                        .defaultCodecs()
-                        .maxInMemorySize(10 * 1024 * 1024))  // 10MB 버퍼 크기
-                .build();
-    	
-        WebClient webClient = webClientBuilder.exchangeStrategies(strategies).build();
+    	WebClient webClient = webClientUtil.configureWebClient(webClientBuilder).build();
     	
      // 두 번째 API 요청
         String secondApiResponse = webClient.get()

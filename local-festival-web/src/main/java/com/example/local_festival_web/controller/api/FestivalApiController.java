@@ -1,6 +1,5 @@
-package com.example.local_festival_web.controller;
+package com.example.local_festival_web.controller.api;
 
-import com.example.local_festival_web.dto.FestivalDTO;
 import com.example.local_festival_web.model.Festival;
 import com.example.local_festival_web.service.FestivalService;
 
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/festivals")
 public class FestivalApiController {
-
+	
     @Autowired
     private FestivalService festivalService;
 
@@ -38,5 +37,5 @@ public class FestivalApiController {
         return festivalService.getAllFestivals();
     }
     
-
+    
 }
