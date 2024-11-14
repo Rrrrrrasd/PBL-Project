@@ -11,4 +11,9 @@ public class FestivalController {
 	public String getFestivalInfo() {
 		return "view/testMainPage2";
 	}
+	
+	@GetMapping("/user/signup")
+	public String signupPage() {
+		return "view/signup";
+	}
 }

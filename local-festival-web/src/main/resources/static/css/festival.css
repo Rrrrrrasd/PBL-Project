@@ -26,13 +26,20 @@ button{
     cursor: pointer;
 }
 
-#login{ /*버튼 모양 바꾸는 선택자*/
+a.btn{ /*버튼모양 바꾸는 선택자*/
     padding: 0.4rem 0.8rem;
-    font-size: 1rem;
-    border-radius: 30px;
+    font-size: 0.9rem;
+    border-radius: 8px;
     font-weight: bold;
 }
-
+a#signIn{
+    color: black;
+}
+a#signIn:hover{
+    text-decoration: none;
+    transition: 0.1s ease;
+    color: #007bff;
+}
 /* 네비 바 없애고 검색창 브랜드로고 왼쪽으로 가져오는 과정에서 필요가 없어짐.
 .left-panel {
     height: 100vh;
@@ -49,7 +56,7 @@ button{
 nav.menu-list{
     display : flex;
     padding: 0.5rem 0;
-    border-bottom: solid 0.1rem gray;
+    /* border-bottom: solid 0.05rem rgb(188, 188, 188); */
     justify-content: space-around
 }
 
@@ -62,13 +69,26 @@ nav.menu-list{
     border: none; /* 테두리 제거 */
     font-weight: bold;
 }
-
+.kategorie:hover{
+    text-decoration: none;
+    transition: 0.2s ease;
+    padding: 0 0.4rem;
+    color: #007bff;
+    border-radius: 10px;
+}
+/* 후보 1
 .kategorie:hover {
     text-decoration: none;
     padding: 0 0.4rem;
     color:gray;
     background-color: rgb(227, 227, 227);
     border-radius: 10px;
+}
+*/
+
+.gray-line {
+    width: 100%;
+    margin: 0; /* 상하좌우 마진 없애기 */
 }
 
 .recommendations {
