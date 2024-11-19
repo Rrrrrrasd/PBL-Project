@@ -21,5 +21,8 @@ public class LoginController {
         return "view/login/findByPw"; 
     }
 	
-	
+	@GetMapping("/signup")
+	public String signupPage() {
+		return "view/login/signup";
+	}
 }
