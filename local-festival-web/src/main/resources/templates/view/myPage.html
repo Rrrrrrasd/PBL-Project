@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+    <p><strong>아이디:</strong> <span th:text="${user.userId}"></span></p>
+	<p><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
+	<p><strong>닉네임:</strong> <span th:text="${user.username}"></span></p>
+	<p><strong>생년월일:</strong> <span th:text="${user.birthdate}"></span></p>
+	<p><strong>성별:</strong> <span th:text="${user.gender}"></span></p>
+</body>
+
+</html>

@@ -4831,3 +4831,9 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/hjsdy/g
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 61 more
+2024-11-19 20:29:48.712547+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERSFESTIVAL" not found; SQL statement:
+drop table usersFESTIVAL [42102-224]
+2024-11-21 01:11:31.313528+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM USER_DATA FESTIVAL [*]USER_DATA"; SQL statement:
+SELECT * FROM USER_DATA FESTIVAL USER_DATA [42000-224]

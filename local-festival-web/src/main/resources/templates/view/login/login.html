@@ -15,10 +15,13 @@
     <div class="container">
         <form th:action="@{/login}" method="post" class="text-center">
             <h2 style="color: #007bff;">ENJOY</h2>
+            <!-- 에러 메시지 -->
+	        <div th:if="${param.error}" class="alert alert-danger">아이디 또는 비밀번호가 잘못되었습니다.</div>
+	        <div th:if="${param.logout}" class="alert alert-success">로그아웃되었습니다.</div>
             <div class="light-horizontal-line"></div>
             <div class="mb-3">
-                <label for="username" class="form-label">아이디</label>
-                <input type="text" id="username" name="username" class="form-control">
+                <label for="userId" class="form-label">아이디</label>
+                <input type="text" id="userId" name="userId" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">비밀번호</label>
@@ -28,9 +31,9 @@
                 <button type="submit" class="btn btn-primary text-white" id="login">로그인</button>
             </div>
             <div class="link-group">
-                <a href="http://localhost:8080/user/signup" class="link-item">회원가입</a>
-                <a href="http://localhost:8080/user/findById" class="link-item">아이디 찾기</a>
-                <a href="http://localhost:8080/user/findByPw" class="link-item">비밀번호 찾기</a>
+                <a href="http://localhost:8080/signup" class="link-item">회원가입</a>
+                <a href="http://localhost:8080/findById" class="link-item">아이디 찾기</a>
+                <a href="http://localhost:8080/findByPw" class="link-item">비밀번호 찾기</a>
             </div>
         </form>
     </div>

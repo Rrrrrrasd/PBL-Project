@@ -11,12 +11,12 @@ public class LoginController {
         return "view/login/login"; 
     }
 	
-	@GetMapping("/user/findById")
+	@GetMapping("/findById")
     public String findIdPage() {
         return "view/login/findById"; 
     }
 	
-	@GetMapping("/user/findByPw")
+	@GetMapping("/findByPw")
     public String findPasswordPage() {
         return "view/login/findByPw"; 
     }
