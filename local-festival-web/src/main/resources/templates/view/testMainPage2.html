@@ -21,12 +21,7 @@
                 <nav id="mainNavbar" class="navbar bg-none flex-column">
                     <div class="w-100 d-flex justify-content-between align-items-center mb-3">
                         <a href="" class="navbar-brand text-primary">ENJOY</a>
-                        <!--  
-                        <div>
-						    Authentication Name: <span th:text="${#authentication.name}"></span>
-						</div>
-						-->
-                        
+
                         <div class="loginBtn">
 	                        <div th:if="${#authentication.name == 'anonymousUser'}">
 	                            <a class="btn" href="/login" id="signIn">Sign in</a>
@@ -40,12 +35,12 @@
 	                    
 	                     </div>
                     </div>
-
+                    <!-- 여기서부터 수정-->
                     <div class="w-100 d-flex justify-content-center">
                         <div class="input-group" style="max-width: 500px;">
-                            <input class="form-control" type="text" placeholder="축제 이름, 지역 검색" aria-label="Search">
+                            <input id="searchInput" class="form-control" type="text" placeholder="축제 이름, 지역 검색" aria-label="Search">
                             <div class="input-group-append">
-                                <button class="search-btn">
+                                <button id="searchButton" class="search-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-search readingGlass" viewBox="0 0 16 16">
                                         <path
@@ -55,14 +50,15 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 여기까지-->
                 </nav>
 
-
+                <!-- 수정 -->
                 <nav class="menu-list">
                     <!-- data-category 속성을 추가하여 각 메뉴를 식별 -->
-                    <button class="kategorie festivalBTN">정보</button>
-                    <button class="kategorie hotelBTN">숙소</button>
-                    <button class="kategorie restaurantBTN">주변 맛집</button>
+                    <button id="infoCategory" class="kategorie festivalBTN">정보</button>
+                    <button id="hotelCategory" class="kategorie hotelBTN">숙소</button>
+                    <button id="restaurantCategory" class="kategorie restaurantBTN">주변 맛집</button>
                 </nav>
 
                 <div class="traffic-info hidden mt-3" id="traffic">
@@ -70,6 +66,27 @@
                 </div>
                 
                 <hr class="gray-line">
+
+                <form action="/submit" method="GET">
+                    <label for="month">선택 : </label>
+                    <select id="month" name="month">
+                        <option value="" selected hidden></option>
+                        <option value="1">1월</option>
+                        <option value="2">2월</option>
+                        <option value="3">3월</option>
+                        <option value="4">4월</option>
+                        <option value="5">5월</option>
+                        <option value="6">6월</option>
+                        <option value="7">7월</option>
+                        <option value="8">8월</option>
+                        <option value="9">9월</option>
+                        <option value="10">10월</option>
+                        <option value="11">11월</option>
+                        <option value="12">12월</option>
+                    </select>
+                    <button type = "button" onclick = "applyChoice()">적용</button>
+                    <button type = "button" onclick = "resetChoice()">초기화</button>
+                </form>
 
                 <!-- 축제 정보 섹션 -->
                 <div class="recommendations">
@@ -158,31 +175,45 @@
 
             <!-- 메인 섹션 (지도) -->
             <div class="mapContainer p-0" style="width: 66.67%">
-
                 <!-- 지도 생성 스크립트 -->
-                <div id="map"></div>
+                <div id="map" style="width:100%; height:100vh;"></div>
 
                 <!-- Kakao Maps API 스크립트 -->
                 <script type="text/javascript"
-                    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=04ecab24b427d7fdb95d7b0be603cfe6"></script>
+                    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=04ecab24b427d7fdb95d7b0be603cfe6&libraries=services"></script>
 
                 <!-- JavaScript 코드 삽입 위치 -->
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         // 현재 날짜를 yyyyMMdd 형식으로 구합니다.
                         var today = new Date();
-                        var todayStr = today.getFullYear() +
+                        window.todayStr = today.getFullYear() +
                             ('0' + (today.getMonth() + 1)).slice(-2) +
                             ('0' + today.getDate()).slice(-2);
 
-                        console.log('Today:', todayStr);
+                        console.log('Today:', window.todayStr);
 
+                        // 수정 (추가)
+                        const grayMarkerImage = new kakao.maps.MarkerImage(
+                            '/image/marker_gray.png',
+                            new kakao.maps.Size(40, 40)
+                        );
+
+                        window.grayMarkerImage = grayMarkerImage;
+
+                        // 수정 (추가)
+                        var globalInfowindow = new kakao.maps.InfoWindow({
+                            removable: true
+                        });
 
                         // API를 호출하여 데이터를 가져옴
                         fetch('/api/festivals/all')
                             .then(response => response.json()) // 응답을 JSON으로 변환
                             .then(festivals => {
                                 console.log('Parsed festivals data:', festivals);
+
+                                // 전역 변수에 축제 데이터 저장
+                                window.festivals = festivals;
 
                                 // Kakao 지도 설정
                                 var mapContainer = document.getElementById('map');
@@ -192,64 +223,99 @@
                                 };
                                 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-                                //API로 받은 데이터를 지도에 마커로 표시
+                                // 전역 map 객체에 마커 배열 저장
+                                window.map = {
+                                    map: map,
+                                    markers: []
+                                };
+
+                                // 축제 데이터를 지도에 마커로 표시
                                 festivals.forEach(function (festival) {
                                     var mapy = parseFloat(festival.mapy);
                                     var mapx = parseFloat(festival.mapx);
-                                    var startDate = festival.eventstartdate; // yyyyMMdd 형식
-                                    var endDate = festival.eventenddate; // yyyyMMdd 형식
+                                    var startDate = festival.eventstartdate; // "YYYYMMDD"
+                                    var endDate = festival.eventenddate; // "YYYYMMDD"
 
-                                    // 현재 날짜가 시작일과 종료일 사이에 있는지 확인
-                                    if (todayStr >= startDate && todayStr <= endDate && !isNaN(mapy) && !isNaN(mapx)) {
-                                        var markerPosition = new kakao.maps.LatLng(mapy, mapx);
-                                        var marker = new kakao.maps.Marker({
-                                            position: markerPosition,
-                                            map: map // 마커를 지도에 표시
-                                        });
-
-                                        // 인포윈도우에 표시할 내용
-                                        var infoContent = `<div class="info-window" style="max-width: 250px; margin: 0 auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
-                                            <div style="text-align: center; margin-bottom: 5px;">
-                                                <strong>${festival.title}</strong><br>
-                                            </div>
-                                            <img src="${festival.firstimage2}" alt="${festival.title}" 
-                                                style="width: 100%; object-fit: cover; max-height: 150px; display: block; margin: 0 auto 3px;">
-                                            <div style="padding: 0 10px; text-align: left; margin-top: 3px; word-wrap: break-word; white-space: normal; font-size: 13px;">
-                                                ${festival.addr1}<br>
-                                                <span style="font-size: 12px; color: #555;">${festival.eventstartdate} ~ ${festival.eventenddate}</span>
-                                            </div>
-                                        </div>`;
-
-                                        // 인포윈도우 생성
-                                        var infowindow = new kakao.maps.InfoWindow({
-                                            content: infoContent,
-                                            removable: true
-                                        });
-
-                                        // 마커에 마우스를 올렸을 때 인포윈도우 표시
-                                        kakao.maps.event.addListener(marker, 'mouseover', function () {
-                                            infowindow.open(map, marker);
-                                        });
-
-                                        // 마커에서 마우스를 뗐을 때 인포윈도우 닫기
-                                        kakao.maps.event.addListener(marker, 'mouseout', function () {
-                                            infowindow.close();
-                                        });
-
-                                        kakao.maps.event.addListener(marker, 'click', function () {
-                                            console.log('Marker clicked');  // 마커 클릭 시 호출 확인
-                                            console.log('Calling InfoMapToPanel function');  // 함수 호출 로그
-
-                                            // 마커의 위치로 지도 중심 이동 및 확대
-                                            map.setLevel(7);
-                                            map.panTo(markerPosition);
-
-                                            // 마커 클릭 시 축제 정보를 패널에 업데이트하는 함수 호출
-                                            InfoMapToPanel(festival);  // 이 함수에서 축제 정보가 패널에 표시되도록 처리
-                                        });
-
+                                    // 날짜 형식이 올바른지 확인
+                                    if (!startDate || !endDate || isNaN(mapy) || isNaN(mapx)) {
+                                        return; // 유효하지 않은 데이터는 건너뜀
                                     }
+
+                                    // 여기서부터 수정
+                                    // 모든 축제 마커를 추가하고, 초기 가시성 설정
+                                    var markerPosition = new kakao.maps.LatLng(mapy, mapx);
+
+                                    var isOngoing = (window.todayStr >= startDate) && (window.todayStr <= endDate);
+                                    
+                                    var marker = new kakao.maps.Marker({
+                                        position: markerPosition,
+                                        map: map,
+                                        image: isOngoing ? null : window.grayMarkerImage
+                                    });
+
+                                    marker.setVisible(isOngoing);
+
+                                    // 마커 객체에 축제 데이터 추가
+                                    marker.festivalData = festival;
+
+                                    // 전역 배열에 마커 추가
+                                    window.map.markers.push(marker);
+
+                                    // 인포윈도우에 표시할 내용
+                                    var infoContent = `<div class="info-window" style="max-width: 250px; margin: 0 auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+                                        <div style="text-align: center; margin-bottom: 5px;">
+                                            <strong>${festival.title}</strong><br>
+                                        </div>
+                                        <img src="${festival.firstimage2}" alt="${festival.title}" 
+                                            style="width: 100%; object-fit: cover; max-height: 150px; display: block; margin: 0 auto 3px;">
+                                        <div style="padding: 0 10px; text-align: left; margin-top: 3px; word-wrap: break-word; white-space: normal; font-size: 13px;">
+                                            ${festival.addr1}<br>
+                                            <span style="font-size: 12px; color: #555;">${festival.eventstartdate} ~ ${festival.eventenddate}</span>
+                                        </div>
+                                    </div>`;
+
+                                    // 여기까지 수정
+                                    // 인포윈도우 생성 코드 삭제
+
+                                    // 마커에 마우스를 올렸을 때 인포윈도우 표시
+                                    kakao.maps.event.addListener(marker, 'mouseover', function () {
+                                        globalInfowindow.setContent(infoContent);
+                                        globalInfowindow.open(map, marker);
+                                    });
+
+                                    // 마커에서 마우스를 뗐을 때 인포윈도우 닫기
+                                    kakao.maps.event.addListener(marker, 'mouseout', function () {
+                                        globalInfowindow.close();
+                                    });
+
+                                    // 마커 클릭 이벤트
+                                    kakao.maps.event.addListener(marker, 'click', function () {
+                                        console.log('Marker clicked');  // 마커 클릭 시 호출 확인
+                                        console.log('Calling InfoMapToPanel function');  // 함수 호출 로그
+
+                                        // 마커의 위치로 지도 중심 이동 및 확대
+                                        map.setLevel(7);
+                                        map.panTo(markerPosition);
+
+                                        window.map.markers.forEach(function(m) {
+                                            if(m !== marker) {
+                                                m.setVisible(false);
+                                            }
+                                            else {
+                                                m.setVisible(true);
+                                            }
+                                        });
+
+                                        // 마커 클릭 시 축제 정보를 패널에 업데이트하는 함수 호출
+                                        InfoMapToPanel(festival);  // 이 함수에서 축제 정보가 패널에 표시되도록 처리
+
+                                        globalInfowindow.setContent(infoContent);
+                                        globalInfowindow.open(map, marker);
+                                    });
                                 });
+
+                                // 초기 필터링 적용 (현재 진행 중인 축제만 보이도록)
+                                // 이미 초기 로드 시 설정했으므로 별도 호출 필요 없음
                             })
                             .catch(error => {
                                 console.error('Error fetching festivals data:', error);
@@ -257,10 +323,16 @@
                     });
                 </script>
             </div>
+
         </div>
     </div>
 
     <!-- JavaScript 코드 추가 -->
+    <!-- 수정 -->
+    <script src="/js/InfoMapToPanel.js"></script>
+    <script src="/js/festivalTerm.js"></script>
+    <script src="/js/search.js"></script>
+
     <script>
         // 모든 버튼 및 정보 요소 선택
         const leftPanel = document.querySelector(".left-panel");
@@ -274,17 +346,16 @@
         const restaurantBTN = document.querySelector(".restaurantBTN");
         const restaurantInfo = document.getElementById("restaurant");
 
-        //왼쪽 패널 확장을 위한 사진버튼 요소 선택 셀렉터올로 하면 카테고리 버튼을 눌러도 아무 액션을 안함..
-        const moreINfo = document.querySelector(".more-info");
-
+        // 왼쪽 패널 확장을 위한 사진버튼 요소 선택
+        const moreInfo = document.querySelector(".more-info");
 
         // 모든 정보 요소들을 배열로 묶음
         const infoSections = [festivalInfo, trafficInfo, hotelInfo, restaurantInfo];
-        //각 카테고리별 사진 버튼을 눌렀을 때의 이벤트리스너 생성
+        // 각 카테고리별 사진 버튼을 눌렀을 때의 이벤트리스너 생성
 
-        //사진버튼 클릭시 왼쪽 패널 확대
-        moreINfo.addEventListener('click', () => {
-            leftPanel.classList.add('expanded');
+        // 사진버튼 클릭 시 왼쪽 패널 확대/축소
+        moreInfo.addEventListener('click', () => {
+            leftPanel.classList.toggle('expanded');
             if (leftPanel.style.width === '33.33%') { // col-md-4
                 leftPanel.style.width = '58.33%'; // col-md-7
                 rightPanel.style.width = '41.67%'; // col-5
@@ -294,31 +365,52 @@
             }
         });
 
-
         // 공통 함수: 모든 정보 숨기기
         function hideAllInfo() {
             infoSections.forEach(info => {
                 info.classList.add('hidden'); // 모든 정보를 숨김
             });
-        };
+        }
 
+        // 수정
         // 축제 정보 버튼 클릭 이벤트
         festivalBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             festivalInfo.classList.toggle('hidden'); // 축제 정보만 토글
+
+            // 주변 맛집 마커 제거 및 목록 초기화
+            if (typeof window.removeRestaurantMarkers === 'function') {
+                window.removeRestaurantMarkers();
+            }
+            if (typeof window.clearRestaurantPanel === 'function') {
+                window.clearRestaurantPanel();
+            }
         });
 
+        // 수정
         hotelBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             hotelInfo.classList.toggle('hidden'); // 숙소 정보만 토글
-        });
 
+            // 주변 맛집 마커 제거 및 목록 초기화
+            if (typeof window.removeRestaurantMarkers === 'function') {
+                window.removeRestaurantMarkers();
+            }
+            if (typeof window.clearRestaurantPanel === 'function') {
+                window.clearRestaurantPanel();
+            }
+        });
+        
         restaurantBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             restaurantInfo.classList.toggle('hidden'); // 음식점 정보만 토글
         });
     </script>
-    <script src="/js/InfoMapToPanel.js"></script>
-</body>
 
+    <!-- 수정 (저작권 표기)-->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="https://www.flaticon.com/kr/free-icons/" title="레스토랑 아이콘">레스토랑 아이콘 제작자: mavadee - Flaticon</a>
+    </div>
+    
+</body>
 </html>

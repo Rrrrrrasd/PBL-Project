@@ -13,6 +13,7 @@ import com.example.local_festival_web.utils.WebClientUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 @Service
 public class RestaurantService {
@@ -37,7 +38,7 @@ public class RestaurantService {
         		+ "&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A"
         		+ "&mapX=" + mapx
         		+ "&mapY=" + mapy
-        		+ "&radius=5000"
+        		+ "&radius=10000"
         		+ "&contentTypeId=39";
 
         WebClient webClient = webClientUtil.configureWebClient(webClientBuilder).build();
@@ -57,14 +58,26 @@ public class RestaurantService {
                 restaurant.setTitle(item.path("title").asText());
                 restaurant.setFirstimage(item.path("firstimage").asText());
                 restaurant.setFirstimage2(item.path("firstimage2").asText());
+                restaurant.setDist(item.path("dist").asText());
+                restaurant.setMapx(item.path("mapx").asText());
+                restaurant.setMapy(item.path("mapy").asText());
                 restaurants.add(restaurant);
             }
         }
 
-        int totalCount = bodyNode.path("totalCount").asInt();
+     // dist 기준으로 낮은 순서로 정렬
+        restaurants.sort(Comparator.comparingDouble(r -> {
+            try {
+                return Double.parseDouble(r.getDist());
+            } catch (NumberFormatException e) {
+                return Double.MAX_VALUE; // 숫자로 변환 불가능한 경우 가장 큰 값으로 처리
+            }
+        }));
+
+        //int totalCount = bodyNode.path("totalCount").asInt();
         RestaurantResponseDTO responseDTO = new RestaurantResponseDTO();
         responseDTO.setRestaurants(restaurants);
-        responseDTO.setTotalCount(totalCount);
+        responseDTO.setTotalCount(restaurants.size()); // 수정
 
         return responseDTO;
     }
