@@ -35,7 +35,7 @@ public class RestaurantService {
         		+ "?serviceKey=" + userKey
         		+ "&numOfRows=" + numOfRows
         		+ "&pageNo=" + pageNo
-        		+ "&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A"
+        		+ "&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=S"
         		+ "&mapX=" + mapx
         		+ "&mapY=" + mapy
         		+ "&radius=10000"
@@ -54,6 +54,9 @@ public class RestaurantService {
                 RestaurantDTO restaurant = new RestaurantDTO();
                 restaurant.setAddr1(item.path("addr1").asText());
                 restaurant.setAddr2(item.path("addr2").asText());
+                restaurant.setAddr2(item.path("cat3").asText());
+                restaurant.setAddr2(item.path("contentid").asText());
+                restaurant.setAddr2(item.path("mlevel").asText());
                 restaurant.setTel(item.path("tel").asText());
                 restaurant.setTitle(item.path("title").asText());
                 restaurant.setFirstimage(item.path("firstimage").asText());
