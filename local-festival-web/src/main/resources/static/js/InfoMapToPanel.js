@@ -15,17 +15,47 @@ const cache = {};
 // 수정
 window.restaurantMarkers = [];
 
+//11/24
+function displayReviews(contentId) {
+    fetch(`/api/reviews/${contentId}`)
+        .then(response => response.json())
+        .then(reviews => {
+			console.log(reviews);
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = '';
+			
+			const filteredReviews = reviews.filter(review => review.contentId === contentId);
+			
+			
+			if (filteredReviews.length === 0) {
+	                reviewList.innerHTML = '<p>리뷰가 없습니다. 첫 리뷰를 작성해보세요!</p>';
+	            } else {
+	                filteredReviews.forEach(review => {
+	                    const reviewDiv = document.createElement('div');
+	                    reviewDiv.className = 'review-item';
+	                    reviewDiv.innerHTML = `
+	                        <p><strong>${review.userId}</strong>: ${review.reviewText}</p>
+	                    `;
+	                    reviewList.appendChild(reviewDiv);
+	                });
+	            }
+	        })
+	        .catch(error => console.error('Error fetching reviews:', error));
+}
+
+
+
 // 마커 클릭시 호출
 function InfoMapToPanel(festival) {
-    console.log('InfoMapToPanel function called');  // 함수 호출 여부 확인
-
+	
+	
+	
     if(currentSelectedFestival && currentSelectedFestival !== festival) {
         clearFestivalInfo();
         removeRestaurantMarkers();
     }
 
-    currentSelectedFestival = festival;
-
+    currentSelectedFestival = festival.contentId;
     // 현재 마커의 위치를 키로 생성
     const cacheKey = `${festival.mapx},${festival.mapy}`;
     
@@ -53,8 +83,6 @@ function InfoMapToPanel(festival) {
     const festivalTimeElement = document.getElementById('festival-time'); // 축제 시간
     const festivalPriceElement = document.getElementById('festival-price'); // 축제 입장료
     const festivalOverviewElement = document.getElementById('festival-overview'); // 개요
-
-    console.log('Festival Data:', festival);  // 축제 객체 전체를 출력
 
     // 각각의 요소에 축제 정보를 업데이트
     imageElement.src = festival.firstimage2 || '/image/festivalSample.jpg';
@@ -103,8 +131,6 @@ function InfoMapToPanel(festival) {
         console.log('New Directions listener added.');
     }
 
-    // 여기까지
-
     function handleDirectionClick() {
         const destination = festival.title || '목적지';
         const latitude = festival.mapy;  // 위도
@@ -117,7 +143,39 @@ function InfoMapToPanel(festival) {
     if (!cache[cacheKey]) {
         cache[cacheKey] = { hotels: [], restaurants: [] };
     }
+	
+	
+	//추가 내용 11/24
+	displayReviews(currentSelectedFestival); // 리뷰 표시
+	
+	// 리뷰 작성 이벤트 리스너 11/24
+	document.getElementById('submit-review-button').addEventListener('click', () => {
+		console.log(currentSelectedFestival);
+	    const contentId = currentSelectedFestival; // 현재 선택된 축제/숙소/음식점의 contentId
+	    const reviewText = document.getElementById('review-input').value.trim();
+	    if (!reviewText) {
+	        alert('리뷰를 입력해주세요.');
+	        return;
+	    }
+	    fetch(`/api/reviews/${contentId}`, {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify(reviewText)
+	    })
+	        .then(response => response.json())
+	        .then(() => {
+	            alert('리뷰가 작성되었습니다.');
+	            displayReviews(contentId); // 리뷰 새로고침
+	        })
+	        .catch(error => console.error('Error posting review:', error));
+	});
+	
+	
+	
 }
+
 
 function clearFestivalInfo() {
     const festivalContainer = document.getElementById('festival');
@@ -229,6 +287,12 @@ function addHotelToPanel(hotel) {
         <button class="recommendationName">${hotel.title}</button>
         <p class="evaluation">${hotel.addr1 || '주소 정보 없음'}</p>
         <p class="evaluation">${hotel.tel || '전화번호 정보 없음'}</p>
+		<!--추가-->
+		<span class="evaluation">
+		  ${restaurant.dist ? parseInt(hotel.dist, 10) + 'm' : '거리 정보 없음'}
+		</span>
+        <button class="show-Restrant-marker-btn">마커 표시</button>
+        <button>정보 표시</button>
     `;
     hotelInfo.appendChild(div);
     console.log('Hotel added to panel:', hotel.title);
