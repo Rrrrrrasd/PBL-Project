@@ -34,7 +34,7 @@ public class HotelService {
         		+ "&numOfRows=" + numOfRows 
         		+ "&pageNo=" + pageNo 
         		+ "&MobileOS=ETC&MobileApp=AppTest&_type=json"
-        		+ "&listYN=Y&arrange=A"
+        		+ "&listYN=Y&arrange=S"
         		+ "&mapX=" + mapx
         		+ "&mapY=" + mapy
         		+ "&radius=5000"
@@ -59,10 +59,16 @@ public class HotelService {
                 HotelDTO hotel = new HotelDTO();
                 hotel.setAddr1(item.path("addr1").asText());
                 hotel.setAddr2(item.path("addr2").asText());
+                hotel.setCat3(item.path("cat3").asText());
+                hotel.setContentid(item.path("contentid").asText());
+                hotel.setMapx(item.path("mapx").asText());
+                hotel.setMapy(item.path("mapy").asText());
                 hotel.setTel(item.path("tel").asText());
                 hotel.setTitle(item.path("title").asText());
                 hotel.setFirstimage(item.path("firstimage").asText());
                 hotel.setFirstimage2(item.path("firstimage2").asText());
+                hotel.setDist(item.path("dist").asText());
+                
                 hotels.add(hotel);
             }
         }

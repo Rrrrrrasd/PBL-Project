@@ -3,6 +3,7 @@ package com.example.local_festival_web.dto.restaurant;
 public class RestaurantDTO {
 	private String addr1;
     private String addr2;
+    private String cat3;
     private String contentid;
     private String contenttypeid;
     private String createdtime;
@@ -15,6 +16,18 @@ public class RestaurantDTO {
     private String mlevel;
     private String tel;
     private String title;
+    
+    
+    
+    
+    
+	public String getCat3() {
+		return cat3;
+	}
+	public void setCat3(String cat3) {
+		this.cat3 = cat3;
+	}
+	
 	public String getAddr1() {
 		return addr1;
 	}
