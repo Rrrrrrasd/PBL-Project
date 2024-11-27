@@ -1,45 +1,62 @@
-// 전역 변수로 mapx와 mapy 선언하여 초기화
-let currentPage = 1;
-const numOfRows = 10;  // 한번에 가져올 숙소 데이터 수
-let currentMapX = null;  // 현재 사용 중인 mapx
-let currentMapY = null;  // 현재 사용 중인 mapy
-let totalHotels = 0;
-let totalRestaurants = 0; // 전체 음식점 수
-let lastMapX = null;
-let lastMapY = null;
 let currentSelectedFestival = null;
 
-// 캐시 객체: { "<mapx>,<mapy>": [숙소 데이터 배열], ... }
-const cache = {};
 
-// 수정
-window.restaurantMarkers = [];
+// 수정 11/25
+
+//11/24
+function displayReviews(contentId) {
+    fetch(`/api/reviews/${contentId}`)
+        .then(response => response.json())
+        .then(reviews => {
+			console.log(reviews);
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = '';
+			
+			const filteredReviews = reviews.filter(review => review.contentId === contentId);
+			
+			
+			if (filteredReviews.length === 0) {
+	                reviewList.innerHTML = '<p>리뷰가 없습니다. 첫 리뷰를 작성해보세요!</p>';
+	            } else {
+	                filteredReviews.forEach(review => {
+	                    const reviewDiv = document.createElement('div');
+	                    reviewDiv.className = 'review-item';
+	                    reviewDiv.innerHTML = `
+	                        <p><strong>${review.userId}</strong>: ${review.reviewText}</p>
+	                    `;
+	                    reviewList.appendChild(reviewDiv);
+	                });
+	            }
+	        })
+	        .catch(error => console.error('Error fetching reviews:', error));
+}
+
+
 
 // 마커 클릭시 호출
 function InfoMapToPanel(festival) {
-    console.log('InfoMapToPanel function called');  // 함수 호출 여부 확인
-
+	
     if(currentSelectedFestival && currentSelectedFestival !== festival) {
         clearFestivalInfo();
         removeRestaurantMarkers();
+		clearHotelPanel();    // 수정 (추가)
     }
 
     currentSelectedFestival = festival;
-
     // 현재 마커의 위치를 키로 생성
     const cacheKey = `${festival.mapx},${festival.mapy}`;
     
     // 캐시에 동일 마커 데이터가 있는지 확인
-    if (cache[cacheKey]) {
-        console.log("Using cached data for marker:", cacheKey);
-        clearHotelPanel();           // 기존 숙소 데이터 초기화
-        clearRestaurantPanel();
+	if (window.cache[cacheKey]) {
+	        console.log("Using cached data for marker:", cacheKey);
+	        clearHotelPanel();           // 기존 숙소 데이터 초기화
+	        clearRestaurantPanel();     // 기존 음식점 데이터 초기화
 
-        const cachedData = cache[cacheKey];
-        displayHotels(cachedData.hotels);         // 캐시된 숙소 데이터를 표시
-        displayRestaurants(cachedData.restaurants);  // 캐시된 음식점 데이터를 표시
-        return;  // API 요청 생략
-    }
+	        const cachedData = window.cache[cacheKey];
+	        displayHotels(cachedData.hotels);             // 캐시된 숙소 데이터를 표시
+	        displayRestaurants(cachedData.restaurants);   // 캐시된 음식점 데이터를 표시
+	        return;  // API 요청 생략
+	    }
 
     // 축제 정보를 표시할 요소
     const imageElement = document.getElementById('festival-image');
@@ -48,62 +65,56 @@ function InfoMapToPanel(festival) {
     const datesElement = document.getElementById('festival-dates');
     const telElement = document.getElementById('festival-tel');
     const festivalInfo = document.getElementById('festival'); // 축제 정보 섹션
-
-    // 추가
     const festivalTimeElement = document.getElementById('festival-time'); // 축제 시간
     const festivalPriceElement = document.getElementById('festival-price'); // 축제 입장료
     const festivalOverviewElement = document.getElementById('festival-overview'); // 개요
 
-    console.log('Festival Data:', festival);  // 축제 객체 전체를 출력
-
-    // 각각의 요소에 축제 정보를 업데이트
-    imageElement.src = festival.firstimage2 || '/image/festivalSample.jpg';
+	// 각각의 요소에 축제 정보를 업데이트
+    imageElement.src = festival.firstimage2 || '해당 축제 이미지를 찾을 수 없습니다.';//'/image/festivalSample.jpg'1123해당축제를 가져올수 없습니다로 변경 
     imageElement.alt = festival.title || '축제 이미지';
     titleElement.textContent = festival.title || '제목 없음';
-    addressElement.textContent = festival.addr1 || '주소 정보 없음';
-    datesElement.textContent = `${festival.eventstartdate.slice(4, 6)}/${festival.eventstartdate.slice(6, 8) || ' 시작일 정보 없음'} ~ 
+    addressElement.textContent = ` ${festival.addr1 || '주소 정보 없음'}`;
+    datesElement.textContent = ` ${festival.eventstartdate.slice(4, 6)}/${festival.eventstartdate.slice(6, 8) || ' 시작일 정보 없음'} ~ 
         ${festival.eventenddate.slice(4, 6)}/${festival.eventenddate.slice(6, 8) || ' 종료일 정보 없음'}`;
     telElement.textContent = festival.sponsor1tel + "  (" + festival.sponsor1 + ")" || '전화번호 정보 없음';
-    festivalTimeElement.textContent = `운영시간: ${festival.playtime || "시간 정보 없음"}`;
-    festivalPriceElement.innerHTML = festival.usetimefestival ? `입장료: ${festival.usetimefestival}` : "입장료 정보 없음";
-    festivalOverviewElement.innerHTML = festival.overview ? `<br/>${festival.overview}</p>` : "";
+    festivalTimeElement.textContent = ` ${festival.playtime || "시간 정보 없음"}`;
+    festivalPriceElement.innerHTML = festival.usetimefestival ? ` ${festival.usetimefestival}` : "입장료 정보 없음";
+    festivalOverviewElement.innerHTML = festival.overview ? `<div class="overviewArea"><p class="overviewTitle">간단 소개</p> <div class="overview">${festival.overview}</div></div>` : "";
 
     // 'festival' 섹션을 표시
     festivalInfo.classList.remove('hidden');
 
     currentMapX = festival.mapx;
     currentMapY = festival.mapy;
-    currentPage = 1;
+	window.currentPageHotels = 1;    // 수정 (추가)
+	window.currentPageRestaurants = 1;    // 수정 (추가)
 
     // 기존 숙소 데이터를 초기화하여 이전 데이터 제거
     clearHotelPanel();
 
     // 새로운 위치의 숙소 데이터를 로드
-    loadMoreHotels(currentPage);
+    loadMoreHotels(window.currentPageHotels);
 
     clearRestaurantPanel(); // 기존 음식점 데이터 초기화
-    loadMoreRestaurants(currentPage); // 첫 페이지 음식점 데이터 로드
+    loadMoreRestaurants(window.currentPageRestaurants); // 첫 페이지 음식점 데이터 로드
 
     // 마지막 요청된 마커 위치 갱신
-    lastMapX = currentMapX;
-    lastMapY = currentMapY;
+	window.lastMapXHotels = window.currentMapX;
+    window.lastMapYHotels = window.currentMapY;
+    window.lastMapXRestaurants = window.currentMapX;
+    window.lastMapYRestaurants = window.currentMapY;
 
     let directionButton = document.querySelector('#Directions');
 
     // 기존 'Directions' 버튼 이벤트 리스너 제거
     if (window.currentDirectionListener && directionButton) {
         directionButton.removeEventListener('click', window.currentDirectionListener);
-        console.log('Previous Directions listener removed.');
     }
     
-    // 수정
     if (directionButton) {
         window.currentDirectionListener = handleDirectionClick;
         directionButton.addEventListener('click', window.currentDirectionListener);
-        console.log('New Directions listener added.');
     }
-
-    // 여기까지
 
     function handleDirectionClick() {
         const destination = festival.title || '목적지';
@@ -114,10 +125,42 @@ function InfoMapToPanel(festival) {
         window.open(kakaoMapUrl, 'kakaoMapTab');
     }
 
-    if (!cache[cacheKey]) {
-        cache[cacheKey] = { hotels: [], restaurants: [] };
-    }
+	if (!window.cache[cacheKey]) {
+	        window.cache[cacheKey] = { hotels: [], restaurants: [] };
+	    }
+	
+	
+	//추가 내용 11/24
+	displayReviews(currentSelectedFestival); // 리뷰 표시
+	
+	// 리뷰 작성 이벤트 리스너 11/24
+	document.getElementById('submit-review-button').addEventListener('click', () => {
+		console.log(currentSelectedFestival);
+	    const contentId = currentSelectedFestival; // 현재 선택된 축제/숙소/음식점의 contentId
+	    const reviewText = document.getElementById('review-input').value.trim();
+	    if (!reviewText) {
+	        alert('리뷰를 입력해주세요.');
+	        return;
+	    }
+	    fetch(`/api/reviews/${contentId}`, {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify(reviewText)
+	    })
+	        .then(response => response.json())
+	        .then(() => {
+	            alert('리뷰가 작성되었습니다.');
+	            displayReviews(contentId); // 리뷰 새로고침
+	        })
+	        .catch(error => console.error('Error posting review:', error));
+	});
+	
+	
+	
 }
+
 
 function clearFestivalInfo() {
     const festivalContainer = document.getElementById('festival');
@@ -168,270 +211,159 @@ function clearFestivalInfo() {
         `;
 }
 
-// 기존 숙소 정보를 지우는 함수
-function clearHotelPanel() {
-    const hotelInfo = document.getElementById('hotel-list');
-    hotelInfo.innerHTML = '';  // 숙소 정보를 표시하는 영역을 초기화
-    totalHotels = 0;           // 총 숙소 개수도 초기화
-}
 
-// "더보기" 버튼에 이벤트 리스너 추가(숙소)
-document.getElementById('loadMoreHotelsButton').addEventListener('click', function() {
-    if (totalHotels > currentPage * numOfRows) {
-        currentPage += 1;
-        loadMoreHotels(currentPage);
-    }
-});
 
-// 더 많은 숙소 데이터를 가져오는 함수
-// 수정
-function loadMoreHotels(pageNo) {
-    fetch(`/api/festivals/hotels/more?mapx=${currentMapX}&mapy=${currentMapY}&pageNo=${pageNo}&numOfRows=${numOfRows}`)
-        .then(response => response.json())
-        .then(data => {
-            const hotels = data.hotels;
-            totalHotels = data.totalCount;
 
-            displayHotels(hotels);
 
-            const key = `${currentMapX}, ${currentMapY}`;
-            cache[key].hotels = (cache[key].hotels || []).concat(hotels);
 
-            if (totalHotels <= currentPage * numOfRows) {
-                const loadMoreButton = document.getElementById('loadMoreHotelsButton');
-                loadMoreButton.textContent = "여기까지입니다";
-                loadMoreButton.disabled = true;
-            }
-            else {
-                // 더보기 버튼 활성화 및 초기화
-                const loadMoreButton = document.getElementById('loadMoreHotelsButton');
-                loadMoreButton.textContent = "더보기";
-                loadMoreButton.disabled = false;
-            }
-        })
-        .catch(error => console.error('Error fetching more hotels:', error));
-}
 
-// 숙소 데이터를 화면에 표시하는 함수
+
+
+
+
+
+
+
+
+
+
+// 숙소 데이터를 화면에 표시하는 함수 11/25 변경
+/*
 function displayHotels(hotels) {
+	const hotelInfo = document.getElementById('hotel-list');
     hotels.forEach(function(hotel) {
-        addHotelToPanel(hotel);
+        addHotelToPanel(hotel, hotelInfo);
     });
-    console.log('Hotels displayed:', hotels.length);
 }
+*/
 
-// 숙소 정보를 추가하는 함수
-function addHotelToPanel(hotel) {
-    const hotelInfo = document.getElementById('hotel-list');
-    const div = document.createElement('div');
+// 숙소 정보를 추가하는 함수 11/25 변경사항 존재
+/*
+function addHotelToPanel(hotel, container) {
+	const hotelId = hotel.id || `${hotel.mapx}-${hotel.mapy}-${Math.random()}`;
+    
+	const div = document.createElement('div');
     div.classList.add('recommendation-item');
     div.innerHTML = `
         <button class="recommendationName">${hotel.title}</button>
         <p class="evaluation">${hotel.addr1 || '주소 정보 없음'}</p>
         <p class="evaluation">${hotel.tel || '전화번호 정보 없음'}</p>
-    `;
-    hotelInfo.appendChild(div);
-    console.log('Hotel added to panel:', hotel.title);
-}
-
-// 음식점 데이터 초기화
-function clearRestaurantPanel() {
-    const restaurantInfo = document.getElementById('restaurant-list');
-    if (restaurantInfo) {
-        restaurantInfo.innerHTML = '';  // 요소가 null이 아닐 때만 초기화
-        totalRestaurants = 0; // 총 음식점 개수 초기화
-        console.log('Restaurant panel cleared.');
-    }
-    else {
-        console.warn("restaurant-list element not found");
-    }
-}
-
-// "더보기" 버튼에 이벤트 리스너 추가 (음식점)
-document.getElementById('loadMoreRestaurantsButton').addEventListener('click', function() {
-    if (totalRestaurants > currentPage * numOfRows) {
-        currentPage += 1;
-        loadMoreRestaurants(currentPage);
-        console.log('Load more restaurants clicked. Loading page:', currentPage);
-    }
-});
-
-// 더 많은 음식점 데이터를 가져오는 함수
-function loadMoreRestaurants(pageNo) {
-    fetch(`/api/festivals/restaurants/more?mapx=${currentMapX}&mapy=${currentMapY}&pageNo=${pageNo}&numOfRows=${numOfRows}`)
-        .then(response => response.json())
-        .then(data => {
-            let restaurants = data.restaurants;
-            totalRestaurants = data.totalCount;
-
-            restaurants.sort((a, b) => parseFloat(a.distanceFromFestival) - parseFloat(b.distanceFromFestival));
-
-            displayRestaurants(restaurants);
-            updateLoadMoreButtonStatus(totalRestaurants, 'loadMoreRestaurantsButton');
-
-            const key = `${currentMapX},${currentMapY}`;
-
-            if (!cache[key]) {
-                cache[key] = { hotels: [], restaurants: [] };
-            }
-            cache[key].restaurants = (cache[key].restaurants || []).concat(restaurants);
-            console.log('Restaurants loaded:', restaurants.length);
-        })
-        .catch(error => console.error('Error fetching more restaurants:', error));
-}
-
-// 음식점 데이터를 화면에 표시하는 함수
-function displayRestaurants(restaurants) {
-    const restaurantList = document.getElementById('restaurant-list');
-    restaurants.forEach(function(restaurant) {
-        addRestaurantToPanel(restaurant, restaurantList);
-    });
-    console.log('Restaurants displayed:', restaurants.length);
-}
-
-// 음식점 패널에 추가
-function addRestaurantToPanel(restaurant, container) {
-    const restaurantId = restaurant.id || `${restaurant.mapx}-${restaurant.mapy}-${Math.random()}`;
-
-    const div = document.createElement('div');
-    div.classList.add('recommendation-item');
-
-    div.innerHTML = `
-        <button class="recommendationName">${restaurant.title}</button>
-        <p class="evaluation">${restaurant.addr1 || '주소 정보 없음'}</p>
-        <p class="evaluation">${restaurant.tel || '전화번호 정보 없음'}</p>
+		<!--추가-->
 		<span class="evaluation">
-		  ${restaurant.dist ? parseInt(restaurant.dist, 10) + 'm' : '거리 정보 없음'}
+		  ${hotel.dist ? parseInt(hotel.dist, 10) + 'm' : '거리 정보 없음'}
 		</span>
-        <button class="show-marker-btn">마커 표시</button>
+        <button class="show-Restrant-marker-btn">마커 표시</button>
         <button>정보 표시</button>
     `;
     container.appendChild(div);
-
-    const showMarkerButton = div.querySelector('.show-marker-btn');
-    showMarkerButton.addEventListener('click', () => {
-        addRestaurantMarker({ ...restaurant, id: restaurantId });
-        console.log('Restaurant marker added:', restaurant.title);
-    });
+	//해당 부분 변경 + 위의 마커표시, 정보표시 추가
+	const showMarkerButton = div.querySelector('.show-Restrant-marker-btn');
+	showMarkerButton.addEventListener('click', () => {
+		addHotelMarker({...hotel, id: hotelId});
+		});
 }
+*/
 
-// 더보기 버튼 상태를 업데이트하는 함수 (중복 제거)
-function updateLoadMoreButtonStatus(totalCount, buttonId) {
-    const loadMoreButton = document.getElementById(buttonId);
-    if (totalCount <= currentPage * numOfRows) {
-        loadMoreButton.textContent = "여기까지입니다";
-        loadMoreButton.disabled = true;
-        console.log('No more restaurants to load.');
-    } else {
-        loadMoreButton.textContent = "더보기";
-        loadMoreButton.disabled = false;
-        console.log('More restaurants available to load.');
-    }
-}
 
-// 음식점 마커 추가
-function addRestaurantMarker(restaurant) {
-    const existingMarker = window.restaurantMarkers.find(marker => marker.restaurantId === restaurant.id);
-    if (existingMarker) {
-        window.map.map.setCenter(existingMarker.getPosition());
-        if (!existingMarker.infowindow.getMap()) {
-            existingMarker.infowindow.open(window.map.map, existingMarker);
-        }
-        console.log('Existing restaurant marker focused:', restaurant.title);
-        return;
-    }
 
-    const latitude = parseFloat(restaurant.mapy);
-    const longitude = parseFloat(restaurant.mapx);
 
-    if (isNaN(latitude) || isNaN(longitude)) {
-        console.error('Invalid restaurant coordinates:', restaurant);
-        return;
-    }
-
-    const position = new kakao.maps.LatLng(latitude, longitude);
-
-    const markerImageSrc = '/image/restaurant_marker.png';
-    const markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(40, 45), {
-        offset: new kakao.maps.Point(16, 32)
-    });
-
-    const marker = new kakao.maps.Marker({
-        position: position,
-        image: markerImage,
-        map: window.map.map
-    });
-
-    const infowindow = new kakao.maps.InfoWindow({
-        content: `
+// 숙소 마커 추가 11/25변경 
+/*
+function addHotelMarker(hotel) {
+	const existingMarker = window.hotelMarkers.find(marker => marker.hotelId === hotel.id);
+	if (existingMarker) {
+		window.map.map.setCenter(existingMarker.getPosition());
+		if (!existingMarker.infowindow.getMap()) {
+			existingMarker.infowindow.open(window.map.map, existingMarker);
+		}
+		return;
+	}
+	
+	const latitude = parseFloat(hotel.mapy);
+	const longitude = parseFloat(hotel.mapx);
+		
+	if (isNaN(latitude) || isNaN(longitude)) {
+		console.error('Invalid hotel coordinates:', hotel);
+		return;
+	}
+	
+	const position = new kakao.maps.LatLng(latitude, longitude);
+	
+	//마커 이미지 변경 필요
+	const markerImageSrc = '/image/hotel_marker.png';
+	const markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(40, 45), {
+		offset: new kakao.maps.Point(16, 32)
+	});
+	
+	const marker = new kakao.maps.Marker({
+		position: position,
+		image: markerImage,
+		map: window.map.map
+	});
+	
+	const infowindow = new kakao.maps.InfoWindow({
+		content: `
             <div style="padding:5px; max-width: 250px;">
-                <div><strong>${restaurant.title}</strong></div>
-                <img src="${restaurant.firstimage2 || '/image/restaurantSample.jpg'}" alt="${restaurant.title}" class="restaurant-image" style="width:100%; height:auto;" />
-                <div>${restaurant.addr1}</div>
+                <div><strong>${hotel.title}</strong></div>
+                <img src="${hotel.firstimage2 || '/image/hotelSample.jpg'}" alt="${hotel.title}" class="hotel-image" style="width:100%; height:auto;" />
+                <div>${hotel.addr1}</div>
             </div>
         `
-    });
-
-    kakao.maps.event.addListener(marker, 'mouseover', function () {
-        infowindow.open(window.map.map, marker);
-    });
-
-    kakao.maps.event.addListener(marker, 'mouseout', function () {
-        infowindow.close();
-    });
-
-    marker.restaurantId = restaurant.id;
-
-    marker.infowindow = infowindow;
-
-    window.restaurantMarkers.push(marker);
-
-    window.map.map.setCenter(position);
-    console.log('New restaurant marker added:', restaurant.title);
+	});
+	
+	kakao.maps.event.addListener(marker, 'mouseover', function () {
+		infowindow.open(window.map.map, marker);
+	});
+	
+	kakao.maps.event.addListener(marker, 'mouseout', function () {
+		infowindow.close();
+	});
+	
+	marker.hotelId = hotel.id;
+	marker.infowindow = infowindow;
+	window.hotelMarkers.push(marker);
+	
+	window.map.map.setCenter(position);
 }
 
-// 음식점 마커 제거
-// 수정
-function removeRestaurantMarkers() {
-    if (window.restaurantMarkers && window.restaurantMarkers.length > 0) {
-        window.restaurantMarkers.forEach(marker => {
-            marker.setMap(null);
-        });
-        window.restaurantMarkers = [];
-        console.log('All restaurant markers removed.');
-    } else {
-        console.log('No restaurant markers to remove.');
-    }
+*/
+
+
+ 
+//숙소 마커 제거 11/25 변경 일단 보류
+/*
+function removeHotelMarkers() {
+	if (window.hotelMarkers && window.hotelMarkers.length > 0) {
+		window.hotelMarkers.forEach(marker => {
+			marker.setMap(null);
+		});
+		window.hotelMarkers = [];
+		console.log('All hotel markers removed.');
+	} else {
+		console.log('No hotel markers to remove.');
+	}
 }
+*/
 
-// 초기화
-document.addEventListener('DOMContentLoaded', function() {
-    const infoButton = document.getElementById('infoCategory');
-    const hotelButton = document.getElementById('hotelCategory');
-    const restaurantButton = document.getElementById('restaurantCategory');
 
-    if (infoButton) {
-        infoButton.addEventListener('click', function() {
-            removeRestaurantMarkers();
-            console.log('Info category button clicked. Removed restaurant markers.');
-        });
-    }
 
-    if (hotelButton) {
-        hotelButton.addEventListener('click', function() {
-            removeRestaurantMarkers();
-            console.log('Hotel category button clicked. Removed restaurant markers.');
-        });
-    }
 
-    if (restaurantButton) {
-        restaurantButton.addEventListener('click', function() {
-            loadMoreRestaurants(currentPage);
-            console.log('Restaurant category button clicked. Loading more restaurants.');
-        });
-    }
-});
 
-window.removeRestaurantMarkers = removeRestaurantMarkers;
-window.addRestaurantMarker = addRestaurantMarker;
-window.clearRestaurantPanel = clearRestaurantPanel;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+window.InfoMapToPanel = InfoMapToPanel;
+window.clearFestivalInfo = clearFestivalInfo;
