@@ -131,12 +131,12 @@ function InfoMapToPanel(festival) {
 	
 	
 	//추가 내용 11/24
-	displayReviews(currentSelectedFestival); // 리뷰 표시
+	displayReviews(currentSelectedFestival.contentId); // 리뷰 표시
 	
 	// 리뷰 작성 이벤트 리스너 11/24
 	document.getElementById('submit-review-button').addEventListener('click', () => {
-		console.log(currentSelectedFestival);
-	    const contentId = currentSelectedFestival; // 현재 선택된 축제/숙소/음식점의 contentId
+		console.log(currentSelectedFestival.contentId);
+	    const contentId = currentSelectedFestival.contentId; // 현재 선택된 축제/숙소/음식점의 contentId
 	    const reviewText = document.getElementById('review-input').value.trim();
 	    if (!reviewText) {
 	        alert('리뷰를 입력해주세요.');
@@ -154,7 +154,10 @@ function InfoMapToPanel(festival) {
 	            alert('리뷰가 작성되었습니다.');
 	            displayReviews(contentId); // 리뷰 새로고침
 	        })
-	        .catch(error => console.error('Error posting review:', error));
+	        .catch(error => {
+				alert('로그인 후 작성가능합니다.');
+				console.error('Error adding review:', error);
+			});
 	});
 	
 	
