@@ -1,7 +1,7 @@
 window.cache = window.cache || {};
 
 window.currentPageHotels = 1;
-const numOfRows = 10;
+window.numOfRows = 10;
 window.currentMapX = null;
 window.currentMapY = null;
 window.totalHotels = 0;
@@ -18,7 +18,6 @@ function clearHotelPanel() {
     const hotelInfo = document.getElementById('hotel-list');
     if (hotelInfo) {
         hotelInfo.innerHTML = '';
-        window.totalHotels = 0; 
         console.log('Hotel panel cleared.');
     } else {
         console.warn("hotel-list element not found");
@@ -77,7 +76,7 @@ function addHotelToPanel(hotel) {
 	            </div>
 				<div class="">
 	                <span class="evaluation">
-	                ${restaurant.dist ? parseInt(restaurant.dist, 10) + 'm' : '거리 정보 없음'}
+	                ${distanceText}
 	                </span>
 	                <button class="otherInfoBTN hotel-marker-btn show-marker-btn" id="Directions">마커 표시</button>
 	                <button class="otherInfoBTN AdditionalInformation" id="Directions">정보</button>
@@ -99,9 +98,10 @@ function addHotelToPanel(hotel) {
 
 // "더보기" 버튼에 이벤트 리스너 추가 (숙소)
 document.getElementById('loadMoreHotelsButton').addEventListener('click', function() {
-    if (window.totalHotels > window.currentPageHotels * numOfRows) {
+	if (window.totalHotels > window.currentPageHotels * numOfRows) {
         window.currentPageHotels += 1;
         console.log(`Loading more hotels : Page ${window.currentPageHotels}`);
+		
         loadMoreHotels(window.currentPageHotels);
     }
     else {
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Hotels loaded from cache.');
                 console.log(`Hotels cache : ${cache}`)
             } else {
-                loadMoreHotels(1);
+                loadMoreHotels(window.currentPageHotels);
                 console.log('Hotels loaded from API.');
             }
         });
