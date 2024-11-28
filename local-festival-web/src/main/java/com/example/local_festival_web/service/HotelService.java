@@ -37,7 +37,7 @@ public class HotelService {
         		+ "&listYN=Y&arrange=S"
         		+ "&mapX=" + mapx
         		+ "&mapY=" + mapy
-        		+ "&radius=5000"
+        		+ "&radius=10000"
         		+ "&contentTypeId=32";
 
         WebClient webClient = webClientUtil.configureWebClient(webClientBuilder).build();

@@ -58,6 +58,8 @@ public class SecurityConfig {
             .authorizeHttpRequests()
                 // 인증 없이 접근을 허용할 특정 경로들
                 .requestMatchers(
+                	"/image/**",
+                	"/api/reviews/**",    // 리뷰 관련 API 경로"
                     "/api/festivals/**", // 축제 관련 API 경로
                     "/festival",         // 축제 정보 페이지
                     "/login",            // 로그인 페이지
