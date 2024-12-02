@@ -70,8 +70,8 @@ function addRestaurantToPanel(restaurant) {
 	            </div>
 	            <div>
 	                <span class="evaluation">${distanceText}</span>
-	                <button class="otherInfoBTN restaurant-marker-btn show-marker-btn" id="Directions">마커 표시</button>
-	                <button class="otherInfoBTN AdditionalInformation" id="Directions">정보</button>
+					<button class="otherInfoBTN restaurant-marker-btn show-marker-btn marker-button" id="Directions">마커 표시</button>
+                    <button class="otherInfoBTN AdditionalInformation info-button" data-category="restaurant" data-id="${restaurant.uniqueId}">정보</button> 
 	            </div>
 	            <hr>
 	        </div>

@@ -75,12 +75,10 @@ function addHotelToPanel(hotel) {
 	            
 	            </div>
 				<div class="">
-	                <span class="evaluation">
-	                ${distanceText}
-	                </span>
-	                <button class="otherInfoBTN hotel-marker-btn show-marker-btn" id="Directions">마커 표시</button>
-	                <button class="otherInfoBTN AdditionalInformation" id="Directions">정보</button>
-	            </div>
+                    <span class="evaluation">${distanceText}</span>
+                    <button class="otherInfoBTN hotel-marker-btn show-marker-btn marker-button" id="Directions">마커 표시</button>
+                    <button class="otherInfoBTN AdditionalInformation info-button" data-category="hotel" data-id="${hotel.uniqueId}">정보</button>
+                </div>
 	            
 	            <hr>
 	        </div>

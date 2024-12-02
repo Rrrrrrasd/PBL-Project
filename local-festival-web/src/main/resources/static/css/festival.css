@@ -245,8 +245,37 @@ nav.menu-list{
     transform: scale(1.02);
 }
 
+/* 수정 (추가) */
+.marker-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    font-weight: bold;
+}
 
-#Directions{ /*버튼 모양 바꾸는 선택자*/
+/* 수정 (추가) */
+.marker-button:active {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: #003d80;
+}
+
+/* 수정 (추가) */
+.info-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+/* 수정 (추가) */
+.info-button:active {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: #003d80;
+}
+
+/* 수정 (삭제) */
+
+/* #Directions{ 버튼 모양 바꾸는 선택자
     padding: 0.4rem 0.8rem;
     font-size: 1rem;
     border-radius: 30px;
@@ -255,7 +284,8 @@ nav.menu-list{
 #Directions:active{
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     background-color: #003d80;
-}
+} */
+
 .overviewTitle{
     font-weight: bold;
 }
@@ -269,8 +299,6 @@ nav.menu-list{
         padding: 0 0.4rem;
     }
 }
-
-
 
 .moreBTN {
     display: block; /* 버튼을 한 줄 차지하도록 설정 */
