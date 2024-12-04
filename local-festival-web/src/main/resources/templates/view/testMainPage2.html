@@ -42,7 +42,7 @@
                         <div class="input-group" style="max-width: 500px;">
                             <input id="searchInput" class="form-control" type="text" placeholder="축제 이름, 지역 검색" aria-label="Search">
                             <div class="input-group-append">
-                                <button id="searchButton" class="search-btn">
+                                <button id="searchButton" class="search-btn close-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-search readingGlass" viewBox="0 0 16 16">
                                         <path
@@ -59,15 +59,16 @@
                 <div class="w-100 d-flex justify-content-center" style="margin-top: 10px;">
                     <button id="restoreSearchButton" type="button" class="btn btn-secondary">뒤로가기</button>
                 </div>
-
                 
                 <!-- 1127 이전 파일에 있던 id추가 -->
                 <nav class="menu-list">
                     <!-- data-category 속성을 추가하여 각 메뉴를 식별 -->
-                    <div id="infoCategory" class="kategorie festivalBTN">축제</div>
-                    <div id="hotelCategory" class="kategorie hotelBTN">숙소</div>
-                    <div id="restaurantCategory" class="kategorie restaurantBTN">주변 음식점</div>
+                    <div id="infoCategory" class="kategorie festivalBTN close-button">축제</div>
+                    <div id="hotelCategory" class="kategorie hotelBTN close-button">숙소</div>
+                    <div id="restaurantCategory" class="kategorie restaurantBTN close-button">주변 음식점</div>
                 </nav>
+
+                
 
                 <div class="traffic-info hidden mt-3" id="traffic">
                     <button onclick="trafficInformation()">교통 정보</button>
@@ -385,7 +386,7 @@
             </div>
             
             <!--1127 정보 창 추가-->
-            <div id="info-overlay">
+            <div id="info-overlay" class="info-overlay">
                 <div class="info-content">
                     <a href="#" id="close-overlay" class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
