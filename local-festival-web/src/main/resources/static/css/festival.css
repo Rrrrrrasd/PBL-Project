@@ -1,3 +1,10 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
 .container-fluid {
     position: relative;
 }
@@ -85,26 +92,8 @@ nav.menu-list{
     box-shadow: 0 5px 0px #007bff;
 }
 
-.kategorie {
-    color: black;
-    font-weight: bold;
-    transition: 0.2s ease;
-}
-.kategorie:hover{
-    text-decoration: none;
-    transition: 0.2s ease-in-out;
-    padding: 0 0.4rem;
-    color: #0056b3;
-    box-shadow: 0 5px 0px #0056b3;
-}
+/* 카테고리 활성화 시 스타일 */
 
-.kategorie:active{
-    box-shadow: 0 5px 0px #007bff;
-}
-.kategorie:focus{
-    transition: 0.2s ease;
-    box-shadow: 0 5px 0px #007bff;
-}
 /* 후보 1background-color: #caf0f8;
 .kategorie:hover {
     text-decoration: none;
@@ -129,8 +118,8 @@ nav.menu-list{
     background: none; /* 배경 제거 */
     border: none;/* 테두리 제거 */
 
-    /*정보 양쪽 마진을 넣기*/
-    margin: 20px 30px;
+    /*정보 양쪽 마진을 넣기 + 1204 마진 값 20 30 => 10 17로 수정*/
+    margin: 10px 17px;
 }
 
 .festivalInformation{
@@ -275,16 +264,21 @@ nav.menu-list{
 
 /* 수정 (삭제) */
 
-/* #Directions{ 버튼 모양 바꾸는 선택자
+ #Directions{ /*버튼 모양 바꾸는 선택자*/
     padding: 0.4rem 0.8rem;
     font-size: 1rem;
     border-radius: 30px;
     font-weight: bold;
 }
+#Directions:hover{
+    
+    background-color: #0056b3;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
 #Directions:active{
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     background-color: #003d80;
-} */
+} 
 
 .overviewTitle{
     font-weight: bold;
@@ -297,6 +291,7 @@ nav.menu-list{
         text-decoration: none;
         transition: 0.2s ease;
         padding: 0 0.4rem;
+        text-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     }
 }
 
@@ -336,6 +331,7 @@ nav.menu-list{
     border-radius: 30px;
     transition: 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.4rem 0.8rem;
 }
 
 .otherInfoBTN:hover {
@@ -346,4 +342,21 @@ nav.menu-list{
 .otherInfoBTN:active {
     background-color: #003d80;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.distance{/*#dc2f02*/
+    color: #fb3c07;
+}
+
+.recommendationName{
+    font-weight: bold;
+}
+
+#rangeResetButton{ /*1204 임경우 추가*/
+    border-radius: 50%; /* 둥근 버튼 모양 */
+    padding: 5px 10px; /* 버튼 크기 */
+    font-size: 1rem; /* 버튼 글씨 크기 */
+    color:rgb(92, 92, 92);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    background-color: rgba(255, 255, 255, 0.7); /* 반투명한 흰색 배경 */
 }

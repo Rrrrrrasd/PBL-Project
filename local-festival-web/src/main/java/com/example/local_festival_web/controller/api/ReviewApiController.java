@@ -35,13 +35,15 @@ public class ReviewApiController {
     @PostMapping("/{contentId}")
     public ResponseEntity<Review> addReview(
             @PathVariable String contentId,
-            @RequestBody String reviewText,
+            @RequestParam String reviewText,
+            @RequestParam String contentType,
             Authentication authentication) {
         String userId = authentication.getName(); // 로그인한 사용자 ID 가져오기
         Review review = new Review();
         review.setContentId(contentId);
         review.setUserId(userId);
         review.setReviewText(reviewText);
+        review.setContentType(contentType);
         Review savedReview = reviewService.addReview(review);
         return ResponseEntity.ok(savedReview);
     }

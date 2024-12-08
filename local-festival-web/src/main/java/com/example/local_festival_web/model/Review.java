@@ -22,6 +22,17 @@ public class Review {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
     
+    @Column(name = "review_type", nullable = false)
+    private String contentType;
+    
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
 
 	public Long getId() {
 		return id;

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function applyRange() {
-    console.log('applyRange 함수 호출됨'); 
+    console.log('applyRange 함수 호출됨');
     const rangeInput = document.getElementById('range');
     const rangeKm = parseFloat(rangeInput.value);
 

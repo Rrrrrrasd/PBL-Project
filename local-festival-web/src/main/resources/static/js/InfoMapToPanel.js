@@ -137,17 +137,24 @@ function InfoMapToPanel(festival) {
 	document.getElementById('submit-review-button').addEventListener('click', () => {
 		console.log(currentSelectedFestival.contentId);
 	    const contentId = currentSelectedFestival.contentId; // 현재 선택된 축제/숙소/음식점의 contentId
+		const contentType = "festival";
 	    const reviewText = document.getElementById('review-input').value.trim();
 	    if (!reviewText) {
 	        alert('리뷰를 입력해주세요.');
 	        return;
 	    }
-	    fetch(`/api/reviews/${contentId}`, {
+		
+		const params = new URLSearchParams({
+		        contentType: contentType,
+		        reviewText: reviewText
+		    });
+			
+			
+	    fetch(`/api/reviews/${contentId}?${params.toString()}`, {
 	        method: 'POST',
 	        headers: {
 	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify(reviewText)
+	        }
 	    })
 	        .then(response => response.json())
 	        .then(() => {

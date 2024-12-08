@@ -1,0 +1,11 @@
+#range{
+    border-radius: 10px;
+    text-align: center;
+}
+
+#rangeForm{
+    position: fixed; /* 화면에 고정 */
+    bottom: 20px;       /* 상단에서 20px 떨어짐 */
+    right: 20px;     /* 오른쪽에서 20px 떨어짐 */
+    z-index: 1000;   /* 다른 요소 위에 표시되도록 설정 */
+}

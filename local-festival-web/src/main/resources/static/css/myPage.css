@@ -4,17 +4,31 @@ body {
     font-family: 'Roboto', Arial, sans-serif;
     color: #333;
 }
-
+h3,h4,h5{
+    font-weight: bold;
+}
 /* Main container */
 .container {
     margin-top: 30px;
     max-width: 800px;
 }
 
+.fixed-button {
+    position: fixed; /* 화면에 고정 */
+    top: 20px;       /* 상단에서 20px 떨어짐 */
+    right: 20px;     /* 오른쪽에서 20px 떨어짐 */
+    z-index: 1000;   /* 다른 요소 위에 표시되도록 설정 */
+    font-weight: bold;
+    border-radius: 30%; /* 둥근 버튼 모양 */
+    padding: 10px 15px; /* 버튼 크기 */
+    font-size: 1rem; /* 버튼 글씨 크기 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
 /* Card styling */
 .card {
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
     background: #ffffff;
     padding: 20px;
@@ -27,8 +41,10 @@ body {
     text-align: center;
     font-size: 1.8rem;
     font-weight: bold;
-    padding: 10px;
-    border-radius: 12px 12px 0 0;
+    line-height: 50px; /* 컨테이너 높이와 동일하게 설정 */
+    height: 50px;
+    vertical-align: middle; /* 텍스트를 중간에 맞춤 */
+    border-radius: 10px !important;
 }
 
 /* User profile info */

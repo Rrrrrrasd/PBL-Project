@@ -27,12 +27,12 @@ function clearHotelPanel() {
 // 숙소 데이터를 화면에 표시하는 함수
 function displayHotels(hotels) {
     const hotelList = document.getElementById('hotel-list');
-    if(!hotelList) {
+    if (!hotelList) {
         console.warn("hotel-list element not found");
         return;
     }
 
-    hotels.forEach(function(hotel, index) {
+    hotels.forEach(function (hotel, index) {
         hotel.uniqueId = `hotel-${hotelUniqueIdCounter++}`;
         console.log(`Assigned uniqueId ${hotel.uniqueId} to hotel: ${hotel.title || '제목 없음'}`);
         addHotelToPanel(hotel);
@@ -53,10 +53,12 @@ function addHotelToPanel(hotel) {
     const div = document.createElement('div');
     div.classList.add('recommendation-item');
     div.setAttribute('data-dist', distanceMeters);
+    //섹션 추가, hr삭제 , distance클래스 추가 제목크기 h5로 수정
     div.innerHTML = `
-	        <div class="recommendationInform">
+	        <div class="recommendationInform section">
 	            
-	            <h3 class="recommendationName">${hotel.title}</h3>
+	            <h5 class="recommendationName">${hotel.title}</h5>
+                <hr>
 	            <div>
 	                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
 	                        <path
@@ -75,12 +77,12 @@ function addHotelToPanel(hotel) {
 	            
 	            </div>
 				<div class="">
-                    <span class="evaluation">${distanceText}</span>
-                    <button class="otherInfoBTN hotel-marker-btn show-marker-btn marker-button" id="Directions">마커 표시</button>
+                    <span class="evaluation distance">${distanceText}</span>
+                    <button class="otherInfoBTN hotel-marker-btn show-marker-btn marker-button" id="Directions"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+</svg> 표시</button>
                     <button class="otherInfoBTN AdditionalInformation info-button" data-category="hotel" data-id="${hotel.uniqueId}">정보</button>
                 </div>
-	            
-	            <hr>
 	        </div>
 	    `;
 
@@ -95,11 +97,11 @@ function addHotelToPanel(hotel) {
 }
 
 // "더보기" 버튼에 이벤트 리스너 추가 (숙소)
-document.getElementById('loadMoreHotelsButton').addEventListener('click', function() {
-	if (window.totalHotels > window.currentPageHotels * numOfRows) {
+document.getElementById('loadMoreHotelsButton').addEventListener('click', function () {
+    if (window.totalHotels > window.currentPageHotels * numOfRows) {
         window.currentPageHotels += 1;
         console.log(`Loading more hotels : Page ${window.currentPageHotels}`);
-		
+
         loadMoreHotels(window.currentPageHotels);
     }
     else {
@@ -228,16 +230,16 @@ function removeHotelMarkers() {
 }
 
 // DOMContentLoaded 이벤트에서 초기화 호출
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const hotelButton = document.getElementById('hotelCategory');
-    
+
     if (hotelButton) {
-        hotelButton.addEventListener('click', function() {
+        hotelButton.addEventListener('click', function () {
             clearHotelPanel();
             console.log('Hotel category button clicked. Cleared hotel panel.');
-            
+
             const key = `${window.currentMapX},${window.currentMapY}`;
-            
+
             if (window.cache[key] && window.cache[key].hotels.length > 0) {
                 displayHotels(window.cache[key].hotels);
                 console.log('Hotels loaded from cache.');

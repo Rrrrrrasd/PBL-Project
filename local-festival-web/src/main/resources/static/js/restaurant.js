@@ -53,9 +53,11 @@ function addRestaurantToPanel(restaurant) {
     const div = document.createElement('div');
     div.classList.add('recommendation-item');
     div.setAttribute('data-dist', distanceMeters);
+    //section추가 , 타이틀 아래 hr추가, 거리 클래스에 distance 추가,  기존 구분선 hr삭제
     div.innerHTML = `
-	        <div class="recommendationInform">
-	            <h3 class="recommendationName">${restaurant.title}</h3>
+	        <div class="recommendationInform section">
+	            <h5 class="recommendationName">${restaurant.title}</h5>
+                <hr>
 	            <div>
 	                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
 	                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
@@ -69,11 +71,12 @@ function addRestaurantToPanel(restaurant) {
 	                <span class="evaluation">${restaurant.tel || '전화번호 정보 없음'}</span>
 	            </div>
 	            <div>
-	                <span class="evaluation">${distanceText}</span>
-					<button class="otherInfoBTN restaurant-marker-btn show-marker-btn marker-button" id="Directions">마커 표시</button>
+	                <span class="evaluation distance">${distanceText}</span>
+					<button class="otherInfoBTN restaurant-marker-btn show-marker-btn marker-button" id="Directions"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+</svg> 표시</button>
                     <button class="otherInfoBTN AdditionalInformation info-button" data-category="restaurant" data-id="${restaurant.uniqueId}">정보</button> 
 	            </div>
-	            <hr>
 	        </div>
 	    `;
 
@@ -109,7 +112,7 @@ function loadMoreRestaurants(pageNo) {
         .then(response => response.json())
         .then(rdata => {
             const restaurants = rdata.restaurants;
-			console.log(rdata);
+            console.log(rdata);
             window.totalRestaurants = rdata.totalCount;
 
             restaurants.sort((a, b) => parseFloat(a.dist) - parseFloat(b.dist));

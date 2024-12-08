@@ -17,7 +17,7 @@ public class FestivalController {
         
         // 인증 정보를 모델에 추가
         model.addAttribute("authentication", authentication);
-		return "view/testMainPage2";
+		return "view/testMainPage12";
 	}
 	
 }

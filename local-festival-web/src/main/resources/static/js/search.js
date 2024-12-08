@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 검색 기능 구현 함수 호출
     implementSearchFunctionality();
 });
@@ -51,7 +51,7 @@ function performSearch(query) {
 
     if (query === '') {
         // 검색어가 없으면 모든 마커를 표시하고, 현재 진행 중인 축제는 파란색, 그렇지 않은 축제은 회색
-        window.map.markers.forEach(function(marker) {
+        window.map.markers.forEach(function (marker) {
             const festival = marker.festivalData;
             var isOngoing = (window.todayStr >= festival.eventstartdate) && (window.todayStr <= festival.eventenddate);
             marker.setVisible(true);
@@ -72,7 +72,7 @@ function performSearch(query) {
     const processedQuery = isEnglish ? query.toLowerCase() : query;
 
     // 모든 마커을 다시 보이도록 설정
-    window.map.markers.forEach(function(marker) {
+    window.map.markers.forEach(function (marker) {
         const festival = marker.festivalData;
         const title = festival.title;
         const addr = festival.addr1;
@@ -99,7 +99,7 @@ function performSearch(query) {
     festivalContainer.classList.remove('hidden');
 
     // 필터링된 축제 데이터 가져오기
-    const filteredFestivals = window.festivals.filter(function(festival) {
+    const filteredFestivals = window.festivals.filter(function (festival) {
         const title = festival.title;
         const addr = festival.addr1;
 
@@ -138,11 +138,11 @@ function displayFestivals(festivals) {
     const festivalContainer = document.getElementById('festival');
     festivalContainer.innerHTML = '';
 
-    festivals.forEach(function(festival) {
+    festivals.forEach(function (festival) {
         // 축제 정보를 담을 아이템 생성
         const item = document.createElement('div');
         item.classList.add('recommendation-item');
-
+        activateFestivalCategory()//1204 임경우 축제 활성화 표시 함수 추가
         item.innerHTML = `
             <div class="recommendationInform">
                 <a href="#" class="more-info">
@@ -162,7 +162,7 @@ function displayFestivals(festivals) {
                             <path
                                 d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
                         </svg>
-                        <span class="evaluation">${festival.eventstartdate.slice(4,6)}/${festival.eventstartdate.slice(6,8)} ~ ${festival.eventenddate.slice(4,6)}/${festival.eventenddate.slice(6,8)}</span>
+                        <span class="evaluation">${festival.eventstartdate.slice(4, 6)}/${festival.eventstartdate.slice(6, 8)} ~ ${festival.eventenddate.slice(4, 6)}/${festival.eventenddate.slice(6, 8)}</span>
                     </div>
                     <div>
                         <span class="evaluation">${festival.operatingHours || '운영시간 정보 없음'}</span>

@@ -47,6 +47,7 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* 버튼 애니메이션 */
+   
 }
 
 #form-container button.moreBTN {
