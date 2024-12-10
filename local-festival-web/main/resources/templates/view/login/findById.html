@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+     <link rel="stylesheet" href="/css/login/findById.css">
+    <title>아이디 찾기</title>
+</head>
+<body>
+    <div class="container">
+        <form th:action="@{/find-id}" method="post" class="text-center">
+            <h2 style="color: #000000;">아이디 찾기</h2>
+            <div class="light-horizontal-line"></div>
+            <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+                <div class="error-message" id="name-error">이름을 입력해주세요.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">이메일 주소</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+                <div class="error-message" id="email-error">유효한 이메일 주소를 입력해주세요.</div>
+            </div>
+            <div class="mb-3">
+                <button type="button" id="send-code" class="btn btn-secondary" style="font-weight: bold;">인증번호 받기</button>
+                <div class="error-message" id="send-code-error">인증번호를 보내는 데 실패했습니다.</div>
+            </div>
+            <div class="mb-3">
+                <label for="verificationCode" class="form-label">인증번호</label>
+                <input type="text" id="verificationCode" name="verificationCode" class="form-control" required>
+                <div class="error-message" id="verificationCode-error">인증번호를 입력해주세요.</div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="font-weight: bold;">아이디 찾기</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('send-code').addEventListener('click', function() {
+            let valid = true;
+
+            // 이름 유효성 검사
+            const name = document.getElementById('name');
+            const nameError = document.getElementById('name-error');
+            if (name.value.trim() === '') {
+                nameError.style.display = 'block';
+                valid = false;
+            } else {
+                nameError.style.display = 'none';
+            }
+
+            // 이메일 유효성 검사
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value)) {
+                emailError.style.display = 'block';
+                valid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            if (valid) {
+                alert('인증번호가 전송되었습니다.');
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            let valid = true;
+
+            // 이름 유효성 검사
+            const name = document.getElementById('name');
+            const nameError = document.getElementById('name-error');
+            if (name.value.trim() === '') {
+                nameError.style.display = 'block';
+                valid = false;
+            } else {
+                nameError.style.display = 'none';
+            }
+
+            // 이메일 유효성 검사
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value)) {
+                emailError.style.display = 'block';
+                valid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            // 인증번호 유효성 검사
+            const verificationCode = document.getElementById('verificationCode');
+            const verificationCodeError = document.getElementById('verificationCode-error');
+            if (verificationCode.value.trim() === '') {
+                verificationCodeError.style.display = 'block';
+                valid = false;
+            } else {
+                verificationCodeError.style.display = 'none';
+            }
+
+            if (!valid) {
+                event.preventDefault(); // 폼 제출 방지
+            }
+        });
+    </script>
+</body>
+</html>
