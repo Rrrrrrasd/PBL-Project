@@ -4,11 +4,11 @@ function displayReviews(contentId, reviewList, title) {
 	        .then(response => response.json())
 	        .then(reviews => {
 				
-				console.log(`review:${reviews}`);
+				
 	            reviewList.innerHTML = '';
 				
-				const filteredReviews = reviews.filter(review => review.contentId === contentId || review.title === title);
-				
+				const filteredReviews = reviews.filter(review => review.title === title || review.contentId === contentId);
+				console.log(`filteredReviews:${filteredReviews}`);
 				if (filteredReviews.length === 0) {
 		                reviewList.innerHTML = '<p>리뷰가 없습니다. 첫 리뷰를 작성해보세요!</p>';
 		            } else {
@@ -54,8 +54,8 @@ function setupReviewSubmission(contentId, submitReviewButton, reviewInput, revie
             .then(response => response.json())
             .then(() => {
                 alert('리뷰가 작성되었습니다.');
-                displayReviews(contentId, reviewList); // 리뷰 목록 새로고침
-                reviewInput.value = ''; // 입력창 초기화
+                displayReviews(contentId, reviewList, title); // 리뷰 목록 새로고침
+				reviewInput.value = ''; // 입력창 초기화
             })
             .catch(error => {
                 console.error('Error submitting review:', error);
