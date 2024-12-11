@@ -110,20 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 };
 
-                if (overlayCategory === 'hotel') {
+				if (overlayCategory === 'hotel') {
                     overlayContent.innerHTML = `
-					<div class="container-fluid">
-				        <div class="card-header bg-transparent text-primary d-flex justify-content-between align-items-center">
-				            <h4 class="card-title mb-0">${overlayData.title}</h4>
-				        </div>
-				        <img src="${overlayData.firstimage || 'placeholder.jpg'}" alt="${overlayData.title}" class="card-img-top">
-				        <div class="card-body">
-				            <ul class="list-group list-group-flush mb-3">
-				                <li class="list-group-item"><strong>주소:</strong> ${overlayData.addr1 || '정보 없음'}</li>
-				                <li class="list-group-item"><strong>전화번호:</strong> ${overlayData.tel || '정보 없음'}</li>
-				                <li class="list-group-item"><strong>거리:</strong> ${formatDistance(overlayData.dist)}</li>
-				            </ul>
-				        </div>
+                        <h3>${overlayData.title}</h3>
+                        <img src="${overlayData.firstimage}" alt="${overlayData.title}" class="info-image">
+                        <p><strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                        </svg> 주소 </strong> ${overlayData.addr1 || '주소 정보 없음'}</p>
+                        <p><strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+  							<path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+							</svg> 전화번호 </strong> ${overlayData.tel || '전화번호 정보 없음'}</p>
+                        <p><strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill" viewBox="0 0 16 16">
+  							<path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"/>
+							</svg> 축제로부터 거리 </strong> ${formatDistance(overlayData.dist)}</p>
+						<hr/>
 				        <div class="reviews-section">
                             <div class="d-flex flex-column">
 				            	<h5 class="section-title overviewTitle">리뷰</h5>
@@ -142,31 +144,33 @@ document.addEventListener('DOMContentLoaded', () => {
 					displayReviews(overlayData.contentid, reviewList, overlayData.title);
 					setupReviewSubmission(overlayData.contentid,submitHotelReviewButton,HotelreviewInput,reviewList, overlayData.title);
 					
-                } else if (overlayCategory === 'restaurant') {
-                    overlayContent.innerHTML = `
-					<div class="container-fluid">
-				        <div class="card-header bg-transparent text-primary d-flex justify-content-between align-items-center">
-				            <h4 class="card-title mb-0">${overlayData.title}</h4>
-				        </div>
-				        <img src="${overlayData.firstimage || 'placeholder.jpg'}" alt="${overlayData.title}" class="card-img-top">
-				        <div class="card-body">
-				            <ul class="list-group list-group-flush mb-3">
-				                <li class="list-group-item"><strong>주소:</strong> ${overlayData.addr1 || '정보 없음'}</li>
-				                <li class="list-group-item"><strong>전화번호:</strong> ${overlayData.tel || '정보 없음'}</li>
-				                <li class="list-group-item"><strong>거리:</strong> ${formatDistance(overlayData.dist)}</li>
-				            </ul>
-				        </div>
-				        <div class="reviews-section">
-                            <div class="d-flex flex-column">
-				            	<h5 class="section-title overviewTitle">리뷰</h5>
-			            		<div id="restaurant-review-list" class="review-list">
-								</div>
-								<textarea id="restaurant-review-input" class="review-input"
-                                	placeholder="리뷰를 작성해주세요"></textarea>
-								<button id="submit-restaurant-review-button" class="otherInfoBTN info-button ml-auto">리뷰
-                                    작성</button>
-				        </div>
-				    </div>
+	                } else if (overlayCategory === 'restaurant') {
+	                    overlayContent.innerHTML = `
+	                        <h3>${overlayData.title}</h3>
+	                        <img src="${overlayData.firstimage}" alt="${overlayData.title}" class="info-image">
+	                        <p><strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                            </svg> 주소 </strong> ${overlayData.addr1 || '주소 정보 없음'}</p>
+	                        <p><strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+							  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+							</svg> 전화번호 </strong> ${overlayData.tel || '전화번호 정보 없음'}</p>
+	                        <p><strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill" viewBox="0 0 16 16">
+							  <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"/>
+							</svg> 축제로부터 거리 </strong> ${formatDistance(overlayData.dist)}</p>
+							<hr/>
+					        <div class="reviews-section">
+	                            <div class="d-flex flex-column">
+					            	<h5 class="section-title overviewTitle">리뷰</h5>
+				            		<div id="restaurant-review-list" class="review-list">
+									</div>
+									<textarea id="restaurant-review-input" class="review-input"
+	                                	placeholder="리뷰를 작성해주세요"></textarea>
+									<button id="submit-restaurant-review-button" class="otherInfoBTN info-button ml-auto">리뷰
+	                                    작성</button>
+					        </div>
+					    </div>
                     `;
 					const reviewList = document.getElementById('restaurant-review-list');
 					const submitRestaurantReviewButton = document.getElementById('submit-restaurant-review-button');
