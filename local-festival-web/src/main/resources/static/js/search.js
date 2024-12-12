@@ -155,54 +155,71 @@ function displayFestivals(festivals) {
     festivals.forEach(function (festival) {
         // 축제 정보를 담을 아이템 생성
         const item = document.createElement('div');
-        item.classList.add('recommendation-item');
+        item.classList.add('recommendationInform'); //1211 이전에recommendation-item 였음
 
         activateFestivalCategory()        // (1204 임경우) 축제 활성화 표시 함수 추가
-
+        //1211 임경우 수정
         item.innerHTML = `
-            <div class="recommendationInform">
-                <a href="#" class="more-info">
-                    <img src="${festival.firstimage2 || '/image/festivalSample.jpg'}" alt="${festival.title}" class="imageExpand">
-                </a>
+        <div class="section">
+        
+                <div class="more-info">
+                <img id="festival-image" src="${festival.firstimage2 || '/image/festivalSample.jpg'}" alt="${festival.title}" class="imageExpand">
+            </div>
+            <div class="">
+                <div class="w-100 d-flex justify-content-between align-items-center mb-3 px-12">
+                    <a id="festival-title" class="recommendationName">${festival.title}</a>
+                    <button class="btn btn-primary text-white" id="Directions" onclick="getDirections(${festival.mapy}, ${festival.mapx})">길찾기</button>
+                </div>
+                <div id="festa-data">
+                    <div class="festa-magin" id="festa-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                        </svg>
+                        <span id="festival-address" class="evaluation">${festival.addr1 || '주소 정보 없음'}</span>
+                    </div>
+                    <div class="festa-magin" id="festa-period">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                        </svg>
+                        <span id="festival-dates" class="evaluation">${festival.eventstartdate.slice(4, 6)}/${festival.eventstartdate.slice(6, 8)} ~ ${festival.eventenddate.slice(4, 6)}/${festival.eventenddate.slice(6, 8)}</span>
+                    </div>
+                    <div class="festa-magin" id="festa-time">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                        </svg>
+                        <span id="festival-time" class="evaluation">${festival.operatingHours || '운영시간 정보 없음'}</span>
+                    </div>
+                    <div class="festa-magin" id="festa-price">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
+                                            <path
+                                                d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
+                                            <path
+                                                d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
+                                            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
+                                        </svg>
+                        <span id="festival-price" class="evaluation">${festival.entryFee || '입장료 정보 없음'}</span>
+                    </div>
+                    <div class="festa-magin" id="festival-tel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/>
+                        </svg>
+                        <span id="festival-tel" class="evaluation">${festival.telephone || '전화번호 정보 없음'}</span>
+                    </div>
+                </div>
                 <div>
-                    <div class="w-100 d-flex justify-content-between align-items-center mb-3 px-12">
-                        <button class="recommendationName" onclick="focusOnMarker('${festival.title}')">${festival.title}</button>
-                        <button class="btn btn-primary text-white" onclick="getDirections(${festival.mapy}, ${festival.mapx})">길찾기</button>
-                    </div>
-                    <p class="evaluation">${festival.addr1 || '주소 정보 없음'}</p>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
-                            <path
-                                d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
-                            <path
-                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                        </svg>
-                        <span class="evaluation">${festival.eventstartdate.slice(4, 6)}/${festival.eventstartdate.slice(6, 8)} ~ ${festival.eventenddate.slice(4, 6)}/${festival.eventenddate.slice(6, 8)}</span>
-                    </div>
-                    <div>
-                        <span class="evaluation">${festival.operatingHours || '운영시간 정보 없음'}</span>
-                    </div>
-                    <div>
-                        <span class="evaluation">${festival.entryFee || '입장료 정보 없음'}</span>
-                    </div>
-                    <div class="flex-column">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
-                            <path
-                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                        </svg>
-                        <span class="evaluation">${festival.telephone || '전화번호 정보 없음'}</span>
-                    </div>
-                    <div>
-                        <span class="evaluation">${festival.overview || '개요 정보 없음'}</span>
-                    </div>
-
-                    <hr> <!--리뷰, 평점 구분선-->
+                    <hr>
+                    <p class="overviewTitle">간단 소개</p>
+                    <span id="festival-overview" class="evaluation">${festival.overview || '개요 정보 없음'}</span>
                 </div>
             </div>
+        </div>
         `;
-
+        // 아이템을 컨테이너에 추가
         festivalContainer.appendChild(item);
     });
 

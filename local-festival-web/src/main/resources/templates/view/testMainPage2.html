@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="/css/infoWindow.css">
     <link rel="stylesheet" href="/css/infoOverlay.css">
     <link rel="stylesheet" href="/css/choicePeriod.css">
+    <link rel="stylesheet" href="/css/mypage.css">
+    <link rel="stylesheet" href="/css/review.css">
+    <link rel="stylesheet" href="/css/category.css">  <!-- 204임경우 추가 -->
+    <link rel="stylesheet" href="/css/range.css">  <!-- 1204임경우 추가 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,22 +29,26 @@
                         <a href="" class="navbar-brand text-primary">ENJOY</a>
 
                         <div class="loginBtn">
-	                        <div th:if="${#authentication.name == 'anonymousUser'}">
-	                            <a class="btn" href="/login" id="signIn">Sign in</a>
-	                            <a class="btn btn-primary text-white" href="/signup">Sign up</a>
-	                        </div>
-	                        <div th:if="${#authentication.name != 'anonymousUser'}">
-					            <!-- 로그인한 사용자 -->
-					            <a th:href="@{/mypage}" class="btn btn-primary text-white">My Page</a>
-					            <a th:href="@{/logout}" class="btn">Logout</a>
-					        </div>
-	                    
-	                     </div>
+                            <div th:if="${#authentication.name == 'anonymousUser'}">
+                                <a class="btn" href="/login" id="signIn">Sign in</a>
+                                <a class="btn btn-primary text-white" href="/signup">Sign up</a>
+                            </div>
+                            <div th:if="${#authentication.name != 'anonymousUser'}">
+                                <!-- 로그인한 사용자 -->
+                                <a th:href="@{/mypage}" class="btn btn-primary text-white">My Page</a>
+                                <a th:href="@{/logout}" class="btn">Logout</a>
+                            </div>
+                        </div>
                     </div>
-                    <!-- 여기서부터 수정-->
-                    <div class="w-100 d-flex justify-content-center">
+                   
+                    <div class="w-100 d-flex justify-content-center align-items-center">
+                        <button id="backButton" class="btn btn-secondary mr-2" style="padding: 0; border: none; background: none;">
+                            <img src="/image/back_arrow.png" alt="뒤로가기" style="width: 24px; height: 24px;">
+                        </button>
+
                         <div class="input-group" style="max-width: 500px;">
-                            <input id="searchInput" class="form-control" type="text" placeholder="축제 이름, 지역 검색" aria-label="Search">
+                            <input id="searchInput" class="form-control" type="text" placeholder="축제 이름, 지역 검색"
+                                aria-label="Search">
                             <div class="input-group-append">
                                 <button id="searchButton" class="search-btn close-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -52,14 +60,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 여기까지-->
                 </nav>
-                
-                <!-- 수정 (추가) -->
-                <div class="w-100 d-flex justify-content-center" style="margin-top: 10px;">
-                    <button id="restoreSearchButton" type="button" class="btn btn-secondary">뒤로가기</button>
-                </div>
-                
+
                 <!-- 1127 이전 파일에 있던 id추가 -->
                 <nav class="menu-list">
                     <!-- data-category 속성을 추가하여 각 메뉴를 식별 -->
@@ -68,72 +70,83 @@
                     <div id="restaurantCategory" class="kategorie restaurantBTN close-button">주변 음식점</div>
                 </nav>
 
-                
-
                 <div class="traffic-info hidden mt-3" id="traffic">
                     <button onclick="trafficInformation()">교통 정보</button>
                 </div>
-                
+
                 <hr class="gray-line">
-				<div id="form-container">
-	                <form action="/submit" method="GET">
-	                    <label for="month">월간검색</label>
-	                    <select id="month" name="month">
-	                        <option value="" selected hidden></option>
-	                        <option value="1">1월</option>
-	                        <option value="2">2월</option>
-	                        <option value="3">3월</option>
-	                        <option value="4">4월</option>
-	                        <option value="5">5월</option>
-	                        <option value="6">6월</option>
-	                        <option value="7">7월</option>
-	                        <option value="8">8월</option>
-	                        <option value="9">9월</option>
-	                        <option value="10">10월</option>
-	                        <option value="11">11월</option>
-	                        <option value="12">12월</option>
-	                    </select>
-	                    <button class="otherInfoBTN" type = "button" onclick = "applyChoice()">적용</button>
-	                    <button class="otherInfoBTN" type = "button" onclick = "resetChoice()">뒤로가기</button>
-	                </form>
+                <div id="form-container">
+                    <form action="/submit" method="GET">
+                        <label for="month">월간검색</label>
+                        <select id="month" name="month">
+                            <option value="" selected hidden></option>
+                            <option value="1">1월</option>
+                            <option value="2">2월</option>
+                            <option value="3">3월</option>
+                            <option value="4">4월</option>
+                            <option value="5">5월</option>
+                            <option value="6">6월</option>
+                            <option value="7">7월</option>
+                            <option value="8">8월</option>
+                            <option value="9">9월</option>
+                            <option value="10">10월</option>
+                            <option value="11">11월</option>
+                            <option value="12">12월</option>
+                        </select>
+                        <button class="otherInfoBTN" type="button" onclick="applyChoice()">적용</button>
+                    </form>
                 </div>
-                
-                <!-- 수정(추가라인) -->
-                <form id="rangeForm" class="hidden" action="/search" method="GET">
-                    <label for="range">범위 :</label>
-                    <input type="number" id="range" name="range" placeholder="0" min="0" max="440">
-                    <span>km</span>
-                    <button type="button" id="searchRangeButton">검색</button>
-                    <button type="button" id="rangeResetButton">초기화</button>
+
+                <!-- 1204임경우 수정(추가라인) -->
+                <form id="rangeForm" class="hidden" action="/search" method="GET"> <!--1204임경우 클래스 row 추가-->
+                    <div class="row">
+                        <div class="section ml-auto"><!--섹션 추가-->
+                            <input type="number" id="range" name="range" placeholder="0" min="0" max="440">
+                            <span>km</span>
+                            <label for="range">이내</label>
+                            <!--1204 클래스 없애려했으나 클릭애니메이션을 넣기위해 + 초기화이름을 아이콘을 바꿈-->
+                            <button type="button" class="otherInfoBTN" id="searchRangeButton">검색</button>
+                            <button type="button" class="otherInfoBTN" id="rangeResetButton"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />
+                                    <path
+                                        d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466" />
+                                </svg></button>
+                        </div>
+                    </div>
                 </form>
 
                 <!-- 축제 정보 섹션 -->
                 <div class="recommendations">
+                    <div class="festival-info hidden" id="festival">    <!--클래스 mt-4 삭제 1204-->
 
-                    <div class="festival-info hidden mt-4" id="festival">
-                 
-                            <!-- 패널의 내용을 동적으로 업데이트하기 위한 코드 변경-->
-                            <div class="recommendationInform">
-                                <!-- 패널의 내용을 동적으로 업데이트하기 위한 id 값을 유지 -->
+                        <!-- 패널의 내용을 동적으로 업데이트하기 위한 코드 변경-->
+                        <div class="recommendationInform">
+                            <!-- 패널의 내용을 동적으로 업데이트하기 위한 id 값을 유지 -->
+                            <div class="section">
+
                                 <div class="more-info"> <!--1123 태그 <a>로 수정-->
-                                	<img id="festival-image" src="" alt="마커를 선택해 주세요" class="imageExpand" >
-                            	</div>
-                                <div class="">
-                                    <div class="w-100 d-flex justify-content-between align-items-center mb-3 px-12">
-                                        <a id="festival-title" class="recommendationName"></a>
-                                        <button class="btn btn-primary text-white" id="Directions">길찾기</button>
-                                    </div>
-                                    <div id="festa-data">
-                                    <div class="festa-magin" id="festa-location"><!--1123 클래스, id 추가-->
+                                    <img id="festival-image" src="" alt="축제 이미지" class="imageExpand">
+                                </div>
+
+                                <div class="w-100 d-flex justify-content-between align-items-center mb-3 px-12">
+                                    <a id="festival-title" class="recommendationName"></a>
+                                    <button class="btn btn-primary text-white" id="Directions">길찾기</button>
+                                </div>
+
+                                <div id="festa-data">
+                                    <div class="festa-magin" id="festa-location">    <!--1123 클래스, id 추가-->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                                             <path
                                                 d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
                                         </svg>
-                                        <span id="festival-address" class="evaluation"> </span><!--1123수정-->
+                                        <span id="festival-address" class="evaluation">주소 정보</span>    <!--1123수정-->
                                     </div>
 
-                                    <div class="festa-magin" id="festa-period"><!--1123 클래스, id 추가-->
+                                    <div class="festa-magin" id="festa-period">    <!--1123 클래스, id 추가-->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
                                             <path
@@ -141,10 +154,10 @@
                                             <path
                                                 d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
                                         </svg>
-                                        <span id="festival-dates" class="evaluation"> </span>
+                                        <span id="festival-dates" class="evaluation">날짜 정보</span>
                                     </div>
 
-                                    <div class="festa-magin" id="festa-time"><!--1123 클래스, id 추가-->
+                                    <div class="festa-magin" id="festa-time">    <!--1123 클래스, id 추가-->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
                                             <path
@@ -152,9 +165,10 @@
                                             <path
                                                 d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
                                         </svg>
-                                        <span id="festival-time" class="evaluation"> </span>
+                                        <span id="festival-time" class="evaluation">운영시간</span>
                                     </div>
-                                    <div class="festa-magin" id="festa-price"><!--1123 클래스, id 추가-->
+
+                                    <div class="festa-magin" id="festa-price">    <!--1123 클래스, id 추가-->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
@@ -165,7 +179,7 @@
                                                 d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
                                             <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
                                         </svg>
-                                        <span id="festival-price" class="evaluation"> </span>
+                                        <span id="festival-price" class="evaluation">입장금액</span>
                                     </div>
 
                                     <div class="festa-magin flex-columnNum" id="flex-columnNum">
@@ -175,27 +189,32 @@
                                             <path
                                                 d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
                                         </svg>
-                                        <span id="festival-tel" class="evaluation"> </span>
+                                        <span id="festival-tel" class="evaluation">전화번호 정보</span>
                                     </div>
                                 </div>
-                                    
-                                <div><!--1123 <hr>추가-->
-                                    <hr>
-                                    <span id="festival-overview" class="evaluation"> </span>
-                                </div>
+                            </div>
 
-								<div th:if="${#authentication.name != 'anonymousUser'}">
-	                                <hr> <!--리뷰, 평점 구분선-->
-	                                <div id="reviews-section" class="">
-									    <h4>리뷰</h4>
-									    <div id="review-list"></div>
-									    <textarea id="review-input" placeholder="리뷰를 작성해주세요"></textarea>
-									    <button id="submit-review-button">리뷰 작성</button>
-									</div>
-								</div>
-                                    
+                            <div class="section">    <!--섹션 추가-->
+                                <span id="festival-overview" class="evaluation">개요</span>
+                            </div>
+
+                            <hr> <!--리뷰, 평점 구분선-->
+                            <div id="reviews-section" class="section overviewArea container">
+                                <div class="d-flex flex-column">
+                                    <!--메인 페이지 섹션 관련css는 review.css에 있음-->
+                                    <h5 class="section-title overviewTitle">리뷰</h5>
+                                    <div id="review-list" class="review-list">
+                                        <!-- 리뷰 항목들이 여기에 추가됩니다 -->
+                                    </div>
+                                    <div th:if="${#authentication.name != 'anonymousUser'}">
+                                    <textarea id="review-input" class="review-input"
+                                        placeholder="리뷰를 작성해주세요"></textarea>
+                                    <button id="submit-review-button" class="otherInfoBTN info-button ml-auto">축제 리뷰
+                                        작성</button>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
 
                     <div class="hotel-info hidden mt-4" id="hotel">
@@ -207,16 +226,14 @@
                                 </button>
                                 <button class="recommendationName">숙소 샘플</button>
                                 <a class="hyperLink" href="">http://www.sample.com/</a>
-                                <p class="evaluation">주소 정보</p>    <!-- 수정 -->
-                                <p class="evaluation">전화번호 정보</p>    <!-- 수정 -->
-                                <span class="evaluation">1000m</span>    <!-- 수정 -->
+                                <p class="evaluation">주소 정보</p> 
+                                <p class="evaluation">전화번호 정보</p>
+                                <span class="evaluation">1000m</span>
                             </div>
                         </div>
-                        <button class="moreBTN" id="loadMoreHotelsButton">여기까지입니다</button>
+                        <button class="moreBTN" id="loadMoreHotelsButton">더보기</button>
                     </div>
-                    
 
-                    
                     <div class="restaurant-info hidden mt-4" id="restaurant">
                         <p class="festivalInformation">맛집 추천</p>
                         <div class="recomendation-item" id="restaurant-list">
@@ -226,12 +243,12 @@
                                 </button>
                                 <button class="recommendationName">레스토랑 샘플</button>
                                 <a class="hyperLink" href="">http://www.sample.com/</a>
-                                <p class="evaluation">주소 정보</p>    <!-- 수정 -->
-                                <p class="evaluation">전화번호 정보</p>    <!-- 수정 -->
-                                <span class="evaluation">500m</span>    <!-- 수정 -->
+                                <p class="evaluation">주소 정보</p> <!-- 수정 -->
+                                <p class="evaluation">전화번호 정보</p> <!-- 수정 -->
+                                <span class="evaluation">500m</span> <!-- 수정 -->
                             </div>
                         </div>
-                        <button class="moreBTN" id="loadMoreRestaurantsButton">여기까지입니다</button>
+                        <button class="moreBTN" id="loadMoreRestaurantsButton">더보기</button>
                     </div>
                 </div>
             </div>
@@ -256,7 +273,6 @@
 
                         console.log('Today:', window.todayStr);
 
-                        // 수정 (추가)
                         const grayMarkerImage = new kakao.maps.MarkerImage(
                             '/image/marker_gray.png',
                             new kakao.maps.Size(40, 40)
@@ -264,10 +280,12 @@
 
                         window.grayMarkerImage = grayMarkerImage;
 
-                        // 수정 (추가)
                         var globalInfowindow = new kakao.maps.InfoWindow({
                             removable: true
                         });
+
+                        // 현재 열린 인포윈도우를 추적할 변수
+                        let openInfowindow = null;
 
                         // API를 호출하여 데이터를 가져옴
                         fetch('/api/festivals/all')
@@ -277,6 +295,8 @@
 
                                 // 전역 변수에 축제 데이터 저장
                                 window.festivals = festivals;
+
+                                document.dispatchEvent(new Event('festivalsLoaded'));
 
                                 // Kakao 지도 설정
                                 var mapContainer = document.getElementById('map');
@@ -304,12 +324,11 @@
                                         return; // 유효하지 않은 데이터는 건너뜀
                                     }
 
-                                    // 여기서부터 수정
                                     // 모든 축제 마커를 추가하고, 초기 가시성 설정
                                     var markerPosition = new kakao.maps.LatLng(mapy, mapx);
 
                                     var isOngoing = (window.todayStr >= startDate) && (window.todayStr <= endDate);
-                                    
+
                                     var marker = new kakao.maps.Marker({
                                         position: markerPosition,
                                         map: map,
@@ -330,15 +349,12 @@
                                             <strong>${festival.title}</strong><br>
                                         </div>
                                         <img src="${festival.firstimage2}" alt="${festival.title}" 
-                                            style="width: 100%; object-fit: cover; max-height: 150px; display: block; margin: 0 auto 3px;">
+                                            style="width: 100%; object-fit: contain; max-height: 150px; display: block; margin: 0 auto 3px;">
                                         <div style="padding: 0 10px; text-align: left; margin-top: 3px; word-wrap: break-word; white-space: normal; font-size: 13px;">
                                             ${festival.addr1}<br>
                                             <span style="font-size: 12px; color: #555;">${festival.eventstartdate} ~ ${festival.eventenddate}</span>
                                         </div>
                                     </div>`;
-
-                                    // 여기까지 수정
-                                    // 인포윈도우 생성 코드 삭제
 
                                     // 마커에 마우스를 올렸을 때 인포윈도우 표시
                                     kakao.maps.event.addListener(marker, 'mouseover', function () {
@@ -356,19 +372,21 @@
                                         console.log('Marker clicked');  // 마커 클릭 시 호출 확인
                                         console.log('Calling InfoMapToPanel function');  // 함수 호출 로그
 
+                                        //1204 마커 클릭시 축제카테고리 활성화 표시 함수 (참고:categoryControl.js)1204 임경우
+                                        activateFestivalCategory()
+
                                         // 마커의 위치로 지도 중심 이동 및 확대
                                         map.setLevel(7);
                                         map.panTo(markerPosition);
 
-                                        window.map.markers.forEach(function(m) {
-                                            if(m !== marker) {
+                                        window.map.markers.forEach(function (m) {
+                                            if (m !== marker) {
                                                 m.setVisible(false);
                                             }
                                             else {
                                                 m.setVisible(true);
                                             }
                                         });
-
                                         // 마커 클릭 시 축제 정보를 패널에 업데이트하는 함수 호출
                                         InfoMapToPanel(festival);  // 이 함수에서 축제 정보가 패널에 표시되도록 처리
 
@@ -386,11 +404,11 @@
                     });
                 </script>
             </div>
-            
+
             <!--1127 정보 창 추가-->
             <div id="info-overlay" class="info-overlay">
                 <div class="info-content">
-                    <a href="#" id="close-overlay" class="">
+                    <a href="#" id="close-overlay" class="close-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             class="bi bi-x-square-fill" viewBox="0 0 16 16">
                             <path
@@ -400,22 +418,28 @@
                     <div>여기에 정보를 추가하세요!</div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <!-- JavaScript 코드 추가 -->
-    <!-- 수정 (추가) -->
     <script src="/js/restaurant.js"></script>
     <script src="/js/hotel.js"></script>
     <script src="/js/InfoMapToPanel.js"></script>
+    <script src="/js/infoOverlay.js"></script>
     <script src="/js/festivalTerm.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/range.js"></script>
     <script src="/js/choicePeriod.js"></script>
-    <script src="/js/infoOverlay.js"></script>
+    <script src="/js/backBTN.js"></script>
+    <script src="/js/categoryControl.js"></script>  <!--1204 임경우 js파일 추가-->
+    <script src="/js/scroll.js"></script>   <!--1204 임경우 js파일 추가-->
+    <!-- <script src="/js/markerToCategory.js"></script>    1204 임경우 js파일 추가-->
+
 
     <script>
+        // 1204 마커 클릭 테스트
+        let makerclick = false
+
         // 모든 버튼 및 정보 요소 선택
         const leftPanel = document.querySelector(".left-panel");
         const rightPanel = document.querySelector(".mapContainer");
@@ -447,6 +471,9 @@
             }
         });
 
+        if (makerclick == true) {    //1204 임경우 마커 클릭했을 때 정보가 뜨도록
+        }
+
         // 공통 함수: 모든 정보 숨기기
         function hideAllInfo() {
             infoSections.forEach(info => {
@@ -454,70 +481,73 @@
             });
         }
 
-     // 축제 정보 버튼 클릭 이벤트
-        // 수정
+        // 축제 정보 버튼 클릭 이벤트
         festivalBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             festivalInfo.classList.toggle('hidden'); // 축제 정보만 토글
         });
 
-        // 수정
         hotelBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             hotelInfo.classList.toggle('hidden'); // 숙소 정보만 토글
         });
-        
+
         restaurantBTN.addEventListener('click', () => {
             hideAllInfo(); // 다른 정보 모두 숨기기
             restaurantInfo.classList.toggle('hidden'); // 음식점 정보만 토글
         });
 
         // 뒤로가기 버튼 클릭 시
-        // 수정 (추가)
         document.addEventListener('DOMContentLoaded', function () {
-            const restoreSearchButton = document.getElementById('restoreSearchButton');
+            const backButton = document.getElementById('backButton');
 
-            restoreSearchButton.addEventListener('click', function () {
-                console.log('뒤로가기 버튼 클릭');
+            if (backButton) {
+                backButton.addEventListener('click', function () {
+                    console.log('뒤로가기 버튼 클릭');
 
-                // 숙소와 주변 맛집의 마커 제거
-                if (typeof window.removeRestaurantMarkers === 'function') {
-                    window.removeRestaurantMarkers();
-                    console.log('주변 맛집 마커 제거됨.');
-                }
-                if (typeof window.removeHotelMarkers === 'function') {
-                    window.removeHotelMarkers();
-                    console.log('숙소 마커 제거됨.');
-                }
+                    // 숙소와 주변 맛집의 마커 제거
+                    if (typeof window.removeRestaurantMarkers === 'function') {
+                        window.removeRestaurantMarkers();
+                        console.log('주변 맛집 마커 제거됨.');
+                    }
+                    if (typeof window.removeHotelMarkers === 'function') {
+                        window.removeHotelMarkers();
+                        console.log('숙소 마커 제거됨.');
+                    }
 
-                // 숙소와 주변 맛집 패널 초기화
-                if (typeof window.clearHotelPanel === 'function') {
-                    window.clearHotelPanel();
-                    console.log('숙소 패널 초기화됨.');
-                }
-                if (typeof window.clearRestaurantPanel === 'function') {
-                    window.clearRestaurantPanel();
-                    console.log('주변 맛집 패널 초기화됨.');
-                }
+                    // 숙소와 주변 맛집 패널 초기화
+                    if (typeof window.clearHotelPanel === 'function') {
+                        window.clearHotelPanel();
+                        console.log('숙소 패널 초기화됨.');
+                    }
+                    if (typeof window.clearRestaurantPanel === 'function') {
+                        window.clearRestaurantPanel();
+                        console.log('주변 맛집 패널 초기화됨.');
+                    }
 
-                // 지도 중심과 레벨 초기화
-                if (window.map && window.map.map) {
-                    window.map.map.setCenter(new kakao.maps.LatLng(36.5, 127.5));
-                    window.map.map.setLevel(12);
-                    console.log('지도 중심과 레벨 초기화됨.');
-                } else {
-                    console.warn('지도 인스턴스가 발견되지 않음.');
-                }
+                        // 지도 중심과 레벨 초기화
+                    if (window.map && window.map.map) {
+                        window.map.map.setCenter(new kakao.maps.LatLng(36.5, 127.5));
+                        window.map.map.setLevel(12);
+                        console.log('지도 중심과 레벨 초기화됨.');
+                    } else {
+                        console.warn('지도 인스턴스가 발견되지 않음.');
+                    }
 
-                // 마지막 검색어로 다시 검색 수행
-                if (window.lastSearchTerm !== undefined && window.lastSearchTerm !== null) {
-                    window.performSearch(window.lastSearchTerm);
-                    console.log('마지막 검색어로 검색 재실행됨:', window.lastSearchTerm);
-                } else {
-                    console.warn('마지막 검색어가 존재하지 않음.');
-                }
-            });
+                    // 마지막 검색어로 다시 검색 수행
+                    if (window.lastSearchTerm !== undefined && window.lastSearchTerm !== null) {
+                        window.performSearch(window.lastSearchTerm);
+                        console.log('마지막 검색어로 검색 재실행됨:', window.lastSearchTerm);
+                    } else {
+                        console.warn('마지막 검색어가 존재하지 않음.');
+                    }
+                });
+            }
+            else {
+                console.warn('backButton 요소가 존재하지 않습니다.');
+            }
         });
+
     </script>
 </body>
 </html>
