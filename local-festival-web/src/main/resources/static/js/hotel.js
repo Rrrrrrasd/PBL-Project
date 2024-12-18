@@ -210,10 +210,16 @@ function addHotelMarker(hotel) {
 
     const infowindow = new kakao.maps.InfoWindow({
         content: `
-            <div style="padding:5px; max-width: 250px;">
-                <div><strong>${hotel.title || '제목 없음'}</strong></div>
-                <img src="${hotel.firstimage2 || '/image/hotelSample.jpg'}" alt="${hotel.title || '이미지'}" class="hotel-image" style="width:100%; height:auto;" />
-                <div>${hotel.addr1 || '주소 정보 없음'}</div>
+			<div class="info-window">
+                <strong>
+                    ${hotel.title}
+                </strong>
+                <div class="bg">
+                    <div style="margin-bottom:4px; font-weight:500; word-wrap:break-word; overflow: hidden">
+                        ${hotel.addr1}
+                    </div>
+                    
+                </div>
             </div>
         `
     });

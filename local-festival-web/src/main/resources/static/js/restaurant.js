@@ -210,12 +210,18 @@ function addRestaurantMarker(restaurant) {
 
     const infowindow = new kakao.maps.InfoWindow({
         content: `
-            <div style="padding:5px; max-width: 250px;">
-                <div><strong>${restaurant.title || '제목 없음'}</strong></div>
-                <img src="${restaurant.firstimage2 || '/image/restaurantSample.jpg'}" alt="${restaurant.title || '이미지'}" class="restaurant-image" style="width:100%; height:auto;" />
-                <div>${restaurant.addr1 || '주소 정보 없음'}</div>
+				<div class="info-window">
+                <strong>
+                    ${restaurant.title}
+                </strong>
+                <div class="bg">
+                    <div style="margin-bottom:4px; font-weight:500; word-wrap:break-word; overflow: hidden">
+                        ${restaurant.addr1}
+                    </div>
+                    
+                </div>
             </div>
-        `
+			`
     });
 
     kakao.maps.event.addListener(marker, 'mouseover', function () {

@@ -7013,3 +7013,6 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 90 more
+2024-12-18 21:28:58.904397+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM REVIEWS USER_DATA [*]USERS"; SQL statement:
+SELECT * FROM REVIEWS USER_DATA USERS [42000-224]
