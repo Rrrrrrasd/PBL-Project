@@ -1,0 +1,298 @@
+.container-fluid {
+    position: relative;
+}
+
+.info-window {
+    max-width: 250px;
+    margin: 0 auto;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/*아래 주석은 버튼을 오른쪽상단에 두기 위한 css이다.*/
+/* .loginBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+} */
+.left-panel{
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.left-panel, .mapContainer {
+    transition: width 0.5s ease; /* 너비 변경 시 애니메이션 효과 */
+}
+
+.left-panel.expanded {
+    width: 60%; /* 확장 시 너비 */
+}
+
+button{
+    cursor: pointer;
+}
+
+a.sign{ /*버튼모양 바꾸는 선택자*/
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    font-weight: bold;
+}
+a.btn{ /*버튼모양 바꾸는 선택자*/
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    font-weight: bold;
+}
+a#signIn{
+    color: black;
+}
+a#signIn:hover{
+    text-decoration: none;
+    transition: 0.1s ease;
+    color: #007bff;
+}
+/* 네비 바 없애고 검색창 브랜드로고 왼쪽으로 가져오는 과정에서 필요가 없어짐.
+.left-panel {
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}*/
+
+
+.recommendations {
+    transition: all 0.3s ease;
+}
+
+nav.menu-list{
+    display : flex;
+    padding: 0.5rem 0;
+    /* border-bottom: solid 0.05rem rgb(188, 188, 188); */
+    justify-content: space-around
+}
+
+.hidden{
+    display: none;
+}
+
+/*아래는 카테고리의 축제, 숙소, 음식점 중 클릭 중인 카테고리를 차별화시켜 */
+.selected{
+    font-size: 1.2rem;
+    color: #007bff !important;
+    transition: 0.2s ease;
+    box-shadow: 0 5px 0px #007bff;
+}
+
+.kategorie {
+    color: black;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+.kategorie:hover{
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+    padding: 0 0.4rem;
+    color: #0056b3;
+    box-shadow: 0 5px 0px #0056b3;
+}
+
+.kategorie:active{
+    box-shadow: 0 5px 0px #007bff;
+}
+.kategorie:focus{
+    transition: 0.2s ease;
+    box-shadow: 0 5px 0px #007bff;
+}
+/* 후보 1background-color: #caf0f8;
+.kategorie:hover {
+    text-decoration: none;
+    padding: 0 0.4rem;
+    color:gray;
+    background-color: rgb(227, 227, 227);
+    border-radius: 10px;
+}
+*/
+
+.gray-line {
+    width: 100%;
+    margin: 0; /* 상하좌우 마진 없애기 */
+}
+
+.recommendations {
+    margin-top: 20px;
+}
+
+.recommendationInform{
+    /*아래 두가지는 버튼 관련*/
+    background: none; /* 배경 제거 */
+    border: none;/* 테두리 제거 */
+
+    /*정보 양쪽 마진을 넣기*/
+    margin: 20px 30px;
+}
+
+.festivalInformation{
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    
+}
+
+#festival-title{
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.festa-magin{
+    margin-bottom: 10px;
+}
+/*
+.recommendation-item img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+*/
+/*지워야 할 수도 있는 부분인 하이퍼링크 클래스 style*/
+.hyperLink{
+    font-size: 1rem;
+}
+.hyperLink:hover{
+    font-size: 1rem;
+}
+
+.evaluation{
+    font-style: none;
+
+    font-size: 1rem;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+}
+
+.input-group{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+
+}
+
+.form-control{
+    border-radius: 5px 0 0 5px;
+    height: 45px !important; /* !important로 text크기를 안씹히도록 함*/
+}
+
+.search-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0;
+    transition: background-color 0.3s ease; /*검색창 클릭시 0.3초 동안 자연스럽게 백그라운드 색 띄움*/
+    height: 45px; 
+    
+}
+
+.search-btn:hover {/*검색버튼에 마우스 올렸을떄 진한 파랑으로 반응표현*/
+    transition: 0.3 ease;
+    background-color: #0056b3;
+}
+.search-btn:active{
+    
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: #003d80;
+}
+
+.readingGlass {
+    fill: white;
+}
+/*
+
+.infoImage {
+    height: 150px;
+    border-radius: 15%;
+    overflow: hidden;
+}
+
+.infoImage img{
+    height: 150px;
+    object-fit: contain;
+    transition: all 0.2s linear;
+}
+
+.infoImage:hover img{
+    transform: scale(1.05);
+}
+*/
+.infoImage {
+ 
+    height: 150px; 
+    overflow: hidden;
+    position: relative; 
+}
+
+.infoImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.2s linear;
+}
+
+.infoImage:hover img {
+    transform: scale(1.02);
+}
+
+
+#Directions{ /*버튼 모양 바꾸는 선택자*/
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    font-weight: bold;
+}
+#Directions:active{
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: #003d80;
+}
+.overviewTitle{
+    font-weight: bold;
+}
+
+.overviewArea:hover{ 
+    .overviewTitle{
+        font-weight: bold;
+        color: #007bff;
+        text-decoration: none;
+        transition: 0.2s ease;
+        padding: 0 0.4rem;
+    }
+}
+
+
+
+
+.moreBTN {
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 30px;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.moreBTN:hover {
+    background-color: #0056b3; 
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+   
+}
+/**/
+
+.moreBTN:active{
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: #003d80;
+}

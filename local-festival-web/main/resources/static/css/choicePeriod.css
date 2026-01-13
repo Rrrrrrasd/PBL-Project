@@ -1,0 +1,66 @@
+#form-container {
+    position: absolute;
+    top: 10px; /* 화면 상단에서 10px 아래 */
+    left: 33.33%; /* left-panel 옆에 배치 */
+    z-index: 1000; /* 지도 위에 표시되도록 설정 */
+    background-color: #ffffff; /* 화이트 배경 */
+    padding: 20px; /* 내부 여백 추가 */
+    border-radius: 12px; /* 둥근 모서리 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
+    border: 1px solid #ddd; /* 부드러운 테두리 */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 부드러운 전환 효과 */
+    max-width: 300px; /* 최대 너비 제한 */
+}
+
+#form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 폼 내부 요소 간격 */
+}
+
+#form-container label {
+    font-size: 16px; /* 라벨 텍스트 크기 */
+    font-weight: bold; /* 강조된 텍스트 */
+    color: #333; /* 텍스트 색상 */
+}
+
+#form-container select {
+    padding: 10px; /* 선택 상자 내부 여백 */
+    font-size: 14px; /* 텍스트 크기 */
+    border-radius: 8px; /* 둥근 모서리 */
+    border: 1px solid #ccc; /* 선택 상자 테두리 */
+    background-color: #f9f9f9; /* 배경 색상 */
+    color: #555; /* 텍스트 색상 */
+    transition: border-color 0.3s ease;
+}
+
+#form-container select:focus {
+    border-color: #007bff; /* 포커스 시 테두리 색상 변경 */
+    outline: none; /* 기본 포커스 제거 */
+}
+
+#form-container button {
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 버튼 애니메이션 */
+   
+}
+
+#form-container button.moreBTN {
+    background-color: #007bff; /* 기본 버튼 색상 */
+    color: #fff; /* 텍스트 색상 */
+}
+
+#form-container button.moreBTN:hover {
+    background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
+    transform: translateY(-2px); /* 약간의 부드러운 상승 효과 */
+}
+
+#form-container button.moreBTN:active {
+    transform: translateY(0); /* 클릭 시 원래 위치로 */
+    background-color: #004080; /* 클릭 시 색상 변경 */
+}

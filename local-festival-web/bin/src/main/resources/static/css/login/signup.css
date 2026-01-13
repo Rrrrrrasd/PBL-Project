@@ -1,0 +1,71 @@
+/* 기존 body 스타일 유지 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    display: flex;
+    justify-content: center;  /* 수평 중앙 정렬 */
+    align-items: center;      /* 수직 중앙 정렬 */
+    height: 100vh;            /* 화면 전체 높이 사용 */
+    margin: 0;                /* 기본 margin 제거 */
+}
+
+/* 폼 스타일 */
+form {
+    background-color: white;
+    padding: 300px 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;              /* 폼의 너비 100%로 설정 */
+    box-sizing: border-box;   /* 패딩과 보더를 너비에 포함 */
+}
+
+/* 제목 스타일 */
+h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 레이블 스타일 */
+label {
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+    display: block;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* 제출 버튼 스타일 */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 효과 */
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}

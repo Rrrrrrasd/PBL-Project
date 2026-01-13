@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 찾기</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="/css/login/findByPw.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1: 아이디 입력 -->
+        <div id="step-1" class="step active">
+            <form th:action="@{/find-pw/step1}" method="post" class="text-center">
+                <h2>비밀번호 찾기</h2>
+                <div class="light-horizontal-line"></div>
+                <div class="mb-3">
+                    <label for="userId" class="form-label">아이디</label>
+                    <input type="text" id="userId" name="userId" class="form-control" required>
+                    <div class="error-message" id="userId-error">아이디를 입력해주세요.</div>
+                </div>
+                <button type="button" id="next-to-step-2" class="btn btn-primary">다음</button>
+            </form>
+        </div>
+
+        <!-- Step 2: 이메일 입력 및 인증번호 전송 -->
+        <div id="step-2" class="step">
+            <form th:action="@{/find-pw/step2}" method="post" class="text-center">
+                <h2>이메일 인증</h2>
+                <div class="light-horizontal-line"></div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">이메일 주소</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                    <div class="error-message" id="email-error">유효한 이메일 주소를 입력해주세요.</div>
+                </div>
+                <div class="mb-3">
+                    <button type="button" id="send-code" class="btn btn-secondary">인증번호 받기</button>
+                    <div class="error-message" id="send-code-error">인증번호를 보내는 데 실패했습니다.</div>
+                </div>
+                <button type="button" id="next-to-step-3" class="btn btn-primary">다음</button>
+            </form>
+        </div>
+
+        <!-- Step 3: 인증번호 입력 -->
+        <div id="step-3" class="step">
+            <form th:action="@{/find-pw/step3}" method="post" class="text-center">
+                <h2>인증번호 확인</h2>
+                <div class="light-horizontal-line"></div>
+                <div class="mb-3">
+                    <label for="verificationCode" class="form-label">인증번호</label>
+                    <input type="text" id="verificationCode" name="verificationCode" class="form-control" required>
+                    <div class="error-message" id="verificationCode-error">인증번호를 입력해주세요.</div>
+                </div>
+                <button type="button" id="next-to-step-4" class="btn btn-primary">다음</button>
+            </form>
+        </div>
+
+        <!-- Step 4: 새 비밀번호 설정 -->
+        <div id="step-4" class="step">
+            <form th:action="@{/find-pw/step4}" method="post" class="text-center">
+                <h2>새 비밀번호 설정</h2>
+                <div class="light-horizontal-line"></div>
+                <div class="mb-3">
+                    <label for="newPassword" class="form-label">새 비밀번호</label>
+                    <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                    <div class="error-message" id="newPassword-error">새 비밀번호를 입력해주세요.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">비밀번호 확인</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                    <div class="error-message" id="confirmPassword-error">비밀번호가 일치하지 않습니다.</div>
+                </div>
+                <button type="submit" class="btn btn-success">비밀번호 재설정</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Step Transitions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Step 1 to Step 2
+            document.getElementById('next-to-step-2').addEventListener('click', function() {
+                let valid = true;
+                const userId = document.getElementById('userId');
+                const userIdError = document.getElementById('userId-error');
+
+                if (userId.value.trim() === '') {
+                    userIdError.style.display = 'block';
+                    valid = false;
+                } else {
+                    userIdError.style.display = 'none';
+                }
+
+                if (valid) {
+                    showStep(2);
+                }
+            });
+
+            // Step 2: Send Code Button
+            document.getElementById('send-code').addEventListener('click', function() {
+                let valid = true;
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('email-error');
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailPattern.test(email.value)) {
+                    emailError.style.display = 'block';
+                    valid = false;
+                } else {
+                    emailError.style.display = 'none';
+                }
+
+                if (valid) {
+                    // 실제로는 서버와 연동하여 인증번호를 전송하는 로직이 필요합니다.
+                    alert('인증번호가 전송되었습니다.');
+                } else {
+                    document.getElementById('send-code-error').style.display = 'block';
+                }
+            });
+
+            // Step 2 to Step 3
+            document.getElementById('next-to-step-3').addEventListener('click', function() {
+                let valid = true;
+                const email = document.getElementById('email');
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const emailError = document.getElementById('email-error');
+
+                if (!emailPattern.test(email.value)) {
+                    emailError.style.display = 'block';
+                    valid = false;
+                } else {
+                    emailError.style.display = 'none';
+                }
+
+                if (valid) {
+                    showStep(3);
+                }
+            });
+
+            // Step 3 to Step 4
+            document.getElementById('next-to-step-4').addEventListener('click', function() {
+                let valid = true;
+                const verificationCode = document.getElementById('verificationCode');
+                const verificationCodeError = document.getElementById('verificationCode-error');
+
+                if (verificationCode.value.trim() === '') {
+                    verificationCodeError.style.display = 'block';
+                    valid = false;
+                } else {
+                    verificationCodeError.style.display = 'none';
+                }
+
+                if (valid) {
+                    showStep(4);
+                }
+            });
+
+            // Function to show the specified step and hide others
+            function showStep(stepNumber) {
+                for (let i = 1; i <= 4; i++) {
+                    const step = document.getElementById('step-' + i);
+                    if (i === stepNumber) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

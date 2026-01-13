@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/mypage.css">
+    <link rel="stylesheet" href="/css/scroll.css">
+</head>
+
+<body>
+    <div class="container">
+        <a href="/festival" id=" homeButton" class="btn btn-primary fixed-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
+            </svg>
+        </a>
+        <a href="#" id="scroll">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+            </svg>
+        </a>
+        <!-- User Profile -->
+        <div class="card">
+            <div class="card-header bg-transparent text-primary d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">마이페이지</h3>
+            </div>
+            <div class="card-body profile-info">
+                <h5>내 정보</h5>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>아이디</th>
+                            <td><strong th:text="${user.userId}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td><strong th:text="${user.email}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>닉네임</th>
+                            <td><strong th:text="${user.username}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>생년월일</th>
+                            <td th:text="${user.birthdate}"></td>
+                        </tr>
+                        <tr>
+                            <th>성별</th>
+							<td>
+							    <strong th:text="${user.gender == 'male' ? '남성' : (user.gender == 'female' ? '여성' : '미정')}"></strong>
+							</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="card">
+            <div class="card-body">
+                <h5>내가 작성한 리뷰</h5>
+                <!-- 리뷰가 있을 경우 표시 -->
+                <ul class="list-unstyled reviews-list" th:if="${#lists.size(reviews) > 0}">
+                    <li th:each="review : ${reviews}" class="review-item">
+                    	<p><strong><span th:text="${review.title}"></span></strong></p>
+                    	<hr>
+                        <p><strong>리뷰 내용: </strong> <span th:text="${review.reviewText}"></span></p>
+                        <p class="review-date"><strong>작성일</strong> <span th:text="${review.createdAt}"></span></p>
+                    </li>
+                </ul>
+                <!-- 리뷰가 없을 경우 메시지 표시 -->
+                <p class="text-center text-muted" th:if="${#lists.size(reviews) == 0}">
+                    작성한 리뷰가 없습니다.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/scroll.js"></script>
+</body>
+
+</html>

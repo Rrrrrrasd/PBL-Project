@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    overflow: hidden; /* 스크롤바 제거 */
+}
+
+.container {
+    width: 100%;
+    max-width: 400px; /* 기존 크기 유지 */
+    padding: 40px; /* 패딩을 늘려 바깥 테두리와 여유 있게 띄움 */
+    background-color: white;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+
+h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    width: 100%;
+}
+
+.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+.form-label {
+    width: 80px; /* 레이블의 고정 너비 */
+    margin-right: 10px; /* 레이블과 입력 칸 사이 간격 */
+    text-align: left; /* 레이블 텍스트 좌측 정렬 */
+}
+
+.form-control {
+    flex: 1; /* 입력란이 남은 공간을 차지하도록 설정 */
+}
+
+
+
+#login {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#login:hover {
+    background-color: #0056b3;
+}
+
+.light-horizontal-line {
+    border-top: 1px solid lightgray;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+}
+
+.link-group {
+    display: flex; /* 아이템들을 가로로 정렬 */
+    justify-content: space-between; /* 좌우 균등 분배 */
+    margin-top: 20px; /* 위쪽 여백 */
+}
+
+.link-item {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    width: 33%; /* 각 링크가 가로 공간의 1/3을 차지 */
+}
+
+.link-item:hover {
+    text-decoration: underline;
+}

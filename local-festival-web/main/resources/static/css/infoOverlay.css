@@ -1,0 +1,171 @@
+#info-overlay {
+    position: absolute;
+    top: 0;
+    left: 33.33%;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: width 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 1000;
+}
+
+#info-overlay.active {
+    width: 66.67%; /* 활성화 시 오버레이 크기 */
+    opacity: 1;
+    visibility: visible;
+}
+
+#close-overlay {
+    position: absolute;
+    top: 10px;       /* 오버레이 창 상단에서 10px 아래 */
+    right: 10px;     /* 오버레이 창 오른쪽에서 10px 왼쪽 */
+    z-index: 1100;
+    background-color: transparent;        /* 배경색 제거 */
+    border: none;    /* 테두리 제거 */
+    cursor: pointer;
+    display: flex;   /* 중앙 정렬을 위해 flex */
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* 버튼 크기 확장 */
+    height: 40px;
+    border-radius: 50%; /* 둥근 형태 */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#close-overlay:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* 호버 시 배경색 추가 */
+    transform: scale(1.1); /* 호버 시 약간 확대 */
+}
+
+#close-overlay svg {
+    fill: #007bff; /* 닫기 아이콘 색상 */
+    transition: fill 0.3s ease; /* 호버 시 색상 전환 효과 */
+    width: 24px; /* 아이콘 크기 조정 */
+    height: 24px;
+}
+
+#close-overlay:hover svg {
+    fill: #ff0000; /* 호버 시 닫기 버튼 색상 */
+}
+
+/* 오버레이 콘텐츠 스타일 개선 */
+#info-overlay .info-content {
+    position: relative;
+    padding: 60px 20px 20px 20px; /* 닫기 버튼과의 간격 확보 */
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 현대적인 폰트 */
+    color: #333; /* 텍스트 색상 */
+}
+
+
+/* 내부 콘텐츠의 스타일 개선 */
+#info-overlay .info-content > div {
+    margin-top: 20px; /* 닫기 버튼 아래 여백 */
+}
+
+#info-overlay h3 {
+    margin-bottom: 15px;
+    font-size: 27px;
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+    font-weight: 650;
+}
+
+#info-overlay p {
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+#info-overlay a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+#info-overlay a:hover {
+    text-decoration: underline;
+}
+
+/* 버튼 스타일 추가 */
+#info-overlay .action-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+#info-overlay .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 반응형 디자인: 화면 너비가 768px 이하일 때 */
+@media (max-width: 768px) {
+    #info-overlay {
+        left: 0; /* 화면 왼쪽에 고정 */
+        width: 100%; /* 전체 너비 사용 */
+    }
+
+    #info-overlay.active {
+        width: 100%; /* 활성화 시 전체 화면 */
+    }
+
+    #info-overlay .info-content {
+        padding: 60px 15px 15px 15px; /* 패딩 조정 */
+    }
+
+    #info-overlay h3 {
+        font-size: 20px;
+    }
+
+    #info-overlay p {
+        font-size: 14px;
+    }
+
+    #close-overlay {
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+    }
+
+    #close-overlay svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* 스크롤바 스타일 */
+#info-overlay::-webkit-scrollbar {
+    width: 8px;
+}
+
+#info-overlay::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#info-overlay::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.info-image {
+    width: 100%;
+    height: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
